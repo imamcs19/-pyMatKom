@@ -12,7 +12,7 @@ Screenshot Hasil Running contoh program untuk Matematika Komputasi:
 
 Big Thanks to PythonAnywhere & for all Ref. Semoga Bermanfaat dan Sukses untuk Semua. :D
 
-[1]	Lang, S., 1971. Basic Mathematics, Addison-Wesley series in introductory mathematics. Addison-Wesley Publishing Company. [cited 2022 Sep 04]
+[1]	Serge Lang, Basic Mathematics. Addison-Wesley Publishing Company, 1971.
 
 [2] Ema Utami, Sukrisno, 10 Langkah Belajar Logika dan Algoritma Menggunakan Bahasa C dan C++ di GNU/Linux, Penerbit Andi Yogyakarta, 2005.
 
