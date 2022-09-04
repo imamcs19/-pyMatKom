@@ -22,7 +22,9 @@ Big Thanks to PythonAnywhere & for all Ref. Semoga Bermanfaat dan Sukses untuk S
 
 [5] Rossen, Kenneth H., Discrete Mathematics and Its Application 7th Edition, McGrawHill, 2012.
 
-[6]	..
+[6] Cholissodin I, Soebroto A. Buku Ajar AI, Machine Learning & Deep Learning. 2019.
+
+[7]	..
 
 ----------- Free e-Books: Buku Ajar Saya ------------
  To All my Students and Others:
