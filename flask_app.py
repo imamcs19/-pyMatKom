@@ -293,6 +293,28 @@ def code_2_2_2():
       pro[:,i] = Temp_hasil
       # print()
 
+    byk_logic = 3
+    pro_hasil_logic = np.chararray((byk_himp_bagian,byk_logic))
+    for idx, proposisi_in in enumerate(pro.decode().tolist()):
+        p_in = True if proposisi_in[0] == 'T' else False
+        q_in = True if proposisi_in[1] == 'T' else False
+        r_in = True if proposisi_in[2] == 'T' else False
+
+        # print(idx)
+        # print(proposisi_in)
+
+        Temp_hasil = []
+
+        # ((~q)∧ r)
+        Temp_hasil.append('T' if ((not q_in) and r_in) else 'F')
+
+        #  ~p --> ~r = ~(~p) V ~r
+        Temp_hasil.append('T' if ((not (not p_in)) or (not r_in)) else 'F')
+
+        #  (r ∧ ((~p) ∨ (~q)))
+        Temp_hasil.append('T' if (r_in and (not p_in or not q_in)) else 'F')
+        pro_hasil_logic[idx,:] = Temp_hasil
+
     # pembuatan tabel kebenaran:
     # ------------------------------------------------------------------------------------------------
     # |  p 	|	q 	|	r	|	Si A ((~q)∧ r)  | Si B ((~p) → (~r)) |   Si C (r ∧ ((~p) ∨ (~q)))	|
@@ -326,14 +348,14 @@ def code_2_2_2():
                       <td align = "center">Si B ((~p) → (~r))</td>
                       <td align = "center">Si C (r ∧ ((~p) ∨ (~q)))	</td>
                     </tr>
-                    {% for pro  in pro_utk_tabel  %}
+                    {% for pro_init, pro_hasil  in pro_utk_tabel  %}
                     <tr>
-                      <td align = "center">{{ pro[0] }}</td>
-                      <td align = "center">{{ pro[1] }}</td>
-                      <td align = "center">{{ pro[2] }}</td>
-                      <td align = "center"></td>
-                      <td align = "center"></td>
-                      <td align = "center"></td>
+                      <td align = "center">{{ pro_init[0] }}</td>
+                      <td align = "center">{{ pro_init[1] }}</td>
+                      <td align = "center">{{ pro_init[2] }}</td>
+                      <td align = "center">{{ pro_hasil[0] }}</td>
+                      <td align = "center">{{ pro_hasil[1] }}</td>
+                      <td align = "center">{{ pro_hasil[2] }}</td>
                     </tr>
                     {% endfor %}
               </table>
@@ -341,7 +363,7 @@ def code_2_2_2():
         </html>
         '''
 
-    return render_template_string(template_view, pro_utk_tabel = pro.decode().tolist())
+    return render_template_string(template_view, pro_utk_tabel = zip(pro.decode().tolist(), pro_hasil_logic.decode().tolist()))
 
 # End =============================
 # 2.2 Logika Proposisi
