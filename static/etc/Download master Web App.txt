@@ -1,0 +1,15 @@
+1. Link download File Master webapp MatKom Kelas C, ketikkan
+—---------------
+$ wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1qYeQqfx8aG4ugLtVhkPwX_MpfFwfW4I3' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1qYeQqfx8aG4ugLtVhkPwX_MpfFwfW4I3" -O 'pyMatKom-main.zip' && rm -rf /tmp/cookies.txt
+
+2. Lalu ketikkan 
+------------------
+$ unzip pyMatKom-main.zip
+
+3. Masuk ke menu "Web", lalu klik dan ubah pada Source code "/home/userAnda/mysite" menjadi "/home/userAnda/pyMatKom-main", lalu tekan centang, dan pada "WSGI configuration file:" ubah "/home/userAnda/mysite" menjadi "/home/userAnda/pyMatKom-main", lalu tekan Reload
+
+4. pip install -r ./pyMatKom-main/requirements.txt
+
+5. coba masuk ke halaman Web App Anda, misal pada https://userAnda.pythonanywhere.com
+
+6. Selesai :D

@@ -1,3 +1,4 @@
 Flask-Cors
 Flask-QRcode
 PyQRCode
+flask_migrate
