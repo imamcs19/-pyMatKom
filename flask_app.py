@@ -89,6 +89,8 @@ def code_2_1_1():
     a = 10
     b = 4
 
+    # <br> adalah new line
+
     return "a = " + str(a) + " (Basis 10) = " + str(np.binary_repr(a, width=8)) + " (Basis 2) <br>" + \
     "b = " + str(b) + " (Basis 10) = " + str(np.binary_repr(b, width=8)) + " (Basis 2)"
 
@@ -250,6 +252,8 @@ def code_2_2_1():
     list_hasil.append(str(np.binary_repr(a | b, width=8)))
     list_hasil.append(str(np.binary_repr(~a, width=8)))
     list_hasil.append(str(np.binary_repr(a ^ b, width=8)))
+
+    # &nbsp; adalah spasi
 
     template_view = '''
         {% extends "extends/base.html" %}
@@ -1059,7 +1063,8 @@ template_edit = """
 
 @app.route("/")
 def index():
-    return redirect(url_for("login"))
+    # return redirect(url_for("login"))
+    return render_template("index.html")
 
 @app.route("/login",methods=["GET", "POST"])
 def login():
