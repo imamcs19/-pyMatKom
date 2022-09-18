@@ -33,14 +33,7 @@ from wtforms import SubmitField
 from flask_wtf import FlaskForm
 import os
 
-# CronJob
-from flask_crontab import Crontab
-
-from flask_gtts import gtts
-
 app = Flask(__name__, static_folder='static')
-crontab = Crontab(app)
-gtts(app)
 qrcode = QRcode(app)
 
 from flask_sqlalchemy import SQLAlchemy
