@@ -48,9 +48,13 @@ CORS(app, resources=r'/api/*')
 app.secret_key = 'filkomub2223^&&*(&^(filkom#BJH#G#VB#MatKom99nDataPyICS_ap938255bnUB'
 
 # keterangan:
+# "#" adalah untuk comment
 # <br> adalah new line
 # &nbsp; adalah spasi
 # <!-- --> atau <!--- ---> adalah untuk comment
+
+# FrameWeb_atas & FrameWeb_bawah untuk dekorasi web
+# agar menjadi Web yang Responsif
 
 FrameWeb_atas = """
 {% extends "extends/base.html" %}
@@ -70,10 +74,12 @@ FrameWeb_atas = """
 
 {% block content %}
 """
+A_a = FrameWeb_atas
 
 FrameWeb_bawah = """
 {% endblock content %}
 """
+Z_z = FrameWeb_bawah
 
 # @app.route('/')
 # def hello_matkom():
@@ -127,7 +133,7 @@ def dec2bin_2():
             <!--- </html> --->
         '''
 
-    if request.method == 'POST': # dioperasikan dihalaman sendiri tanpa send ke route, misal /post_add2
+    if request.method == 'POST': # dioperasikan dihalaman sendiri tanpa send ke route, misal /dec2bin_2
 
         dec = int(float(request.form['a']))
 
@@ -145,10 +151,10 @@ def dec2bin_2():
         hasil = str(decToBin(int(dec)))
         hasil = '0' if hasil == '' else hasil
 
-        return render_template_string(FrameWeb_atas+template_view_1+FrameWeb_bawah, a_post = dec, hasil = hasil)
+        return render_template_string(A_a+template_view_1+Z_z, a_post = dec, hasil = hasil)
 
-    else: # untuk yang 'GET' data awal untuk di send ke /post_add2
-        return render_template_string(FrameWeb_atas+template_view_2+FrameWeb_bawah)
+    else: # untuk yang 'GET' data awal untuk di send ke /dec2bin_2
+        return render_template_string(A_a+template_view_2+Z_z)
 
 @app.route('/2_1_0/<dec>')
 def code_2_1_0(dec):
@@ -259,43 +265,26 @@ def code_2_1_2():
         basis_16.append(konversiBilangan(angka_basis_10,10,16))
 
     template_view = '''
-        {% extends "extends/base.html" %}
-        {% block title %}
-            <title>Web App MatKom Dgn Python</title>
-        {% endblock title %}
-        {{ self.title() }}
-            Home
-        {{ self.title() }}
-        <button onclick="window.location.href='/'" class="btn btn-outline btn-rounded btn-info">
-            <i class="ti-arrow-left m-l-5"></i>
-            <span>Back Home</span>
-        </button> Project 1
-
-        {{ self.title() }}
-            Project 1
-
-        {% block content %}
-
               <h2>
                 <!--- <p style="text-decoration: underline;"> --->
-                <!---   Mencoba konversi bilangan "Decimal ( base r=10 ) atau basis 10" | --->
-                <!---   "Binary ( base r=2) atau basis 2" | --->
-                <!---   "Octal ( base r=8 ) atau basis 8" | --->
-                <!---   "Hexadecimal ( base r=16 ) atau basis 16": --->
+                <!---   Konversi Basis "10" | --->
+                <!---   "2" | --->
+                <!---   "8" | --->
+                <!---   "16": --->
                 <!--- </p> --->
                 <p style="text-decoration: underline;">
-                  Mencoba konversi bilangan "Decimal basis 10" |
-                  "Binary basis 2" |
-                  "Octal basis 8" |
-                  "Hexadecimal basis 16":
+                  Konversi Basis "10" |
+                  "2" |
+                  "8" |
+                  "16":
                 </p>
               </h2>
               <table border ="1">
                     <tr>
-                      <td align = "center">Decimal ( base r=10 )</td>
-                      <td align = "center">Binary ( base r=2)</td>
-                      <td align = "center">Octal ( base r=8 )</td>
-                      <td align = "center">Hexadecimal ( base r=16 )</td>
+                      <td align = "center">&nbsp; Decimal ( base r=10 ) &nbsp;</td>
+                      <td align = "center">&nbsp; Binary ( base r=2) &nbsp;</td>
+                      <td align = "center">&nbsp; Octal ( base r=8 ) &nbsp;</td>
+                      <td align = "center">&nbsp; Hexadecimal ( base r=16 ) &nbsp;</td>
                     </tr>
                     {% for angka_basis_10, angka_basis_2, angka_basis_8, angka_basis_16  in basis_all  %}
                     <tr>
@@ -306,10 +295,155 @@ def code_2_1_2():
                     </tr>
                     {% endfor %}
               </table>
-
-        {% endblock content %}
         '''
-    return render_template_string(template_view, basis_all = zip(basis_10, basis_2, basis_8, basis_16))
+    return render_template_string(A_a+template_view+Z_z, basis_all = zip(basis_10, basis_2, basis_8, basis_16))
+
+@app.route('/code_2_1_2_2', methods=["POST", "GET"])
+def code_2_1_2_2():
+    # mencoba konversi bilangan "Decimal ( base r=10 ) atau basis 10" |
+    # "Binary ( base r=2) atau basis 2" |
+    # "Octal ( base r=8 ) atau basis 8" |
+    # "Hexadecimal ( base r=16 ) atau basis 16"
+
+    # contoh:
+    # ----------------
+    # >>> bin(8)
+    # '0b1000'
+    # >>> oct(8)
+    # '0o10'
+    # >>> hex(8)
+    # '0x8'
+    #
+    # octal_num = 17 # misal sbg bilangan octal
+    # binary_num = bin(int(str(octal_num), 8))  # octal ke binary, hasilnya '0b1111'
+    # dec = int(binary_num, 2)  # binary ke decimal, hasilnya '15'
+
+    # Ref:
+    # [0] https://stackoverflow.com/questions/3973685/python-homework-converting-any-base-to-any-base
+    # [1] https://stackoverflow.com/questions/67300423/python-octal-to-decimal
+    # [2] https://stackoverflow.com/questions/47761528/converting-a-base-10-number-to-any-base-without-strings
+    # [3] https://stackoverflow.com/questions/3528146/convert-decimal-to-binary-in-python
+    #
+    #     Remodified by Imam Cholissodin
+    #
+    def konversiBilangan(n, base=10, to=10):
+        '''
+        params atau argumen:
+          n     - bilangan yang dikonversi
+          base  - basis awal dari bilangan 'n'
+          to    - basis target, must be <= 36 , nilai 36 sbg batasan basis
+        '''
+        # cek basis target untuk memastikan apakah <= 36
+        if to > 36 or base > 36:
+            raise ValueError('max base is 36')
+
+        # melakukan konversi dengan fungsi bawaan (built-in) dari python yaitu "int",
+        # sesuai nilai base sebagai basis yang dimasukkan pada argumen
+        n = int(str(n), base)
+        positive = n >= 0
+
+        # return if base 10 is desired
+        if to == 10:
+            return str(n)
+
+        # melakukan konversi sesuai dengan nilai to sebagai basis yang dimasukkan pada argumen
+        n = abs(n)
+        num = []
+        handle_digit = lambda n: str(n) if n < 10 else chr(n + 55)
+        while n > 0:
+            num.insert(0, handle_digit(n % to))
+            n = n // to
+
+        # return hasil dalam bentuk string
+        return '0' if ''.join(num)=='' else ''.join(num) if positive else '-' + ''.join(num)
+
+
+    import numpy as np
+
+    if request.method == 'POST': # dioperasikan dihalaman sendiri tanpa send ke route, misal /code_2_1_2_2
+        # get nilai batas (a)
+        dec = int(float(request.form['a']))+1
+
+        # generate angka dengan basis 10
+        batas_generate = dec
+        basis_10 = np.arange(0,batas_generate,1)
+
+        # menampung hasil konversi
+        basis_2 = []
+        basis_8 = []
+        basis_16 = []
+        for angka_basis_10 in basis_10:
+            # basis_10 ke basis_2
+            basis_2.append(konversiBilangan(angka_basis_10,10,2))
+
+            # basis_10 ke basis_8
+            basis_8.append(konversiBilangan(angka_basis_10,10,8))
+
+            # basis_10 ke basis_16
+            basis_16.append(konversiBilangan(angka_basis_10,10,16))
+
+        template_view = '''
+                  <form method="post">
+                      <h2>
+                        <!--- <p style="text-decoration: underline;"> --->
+                        <!---   Konversi Basis "10" | --->
+                        <!---   "2" | --->
+                        <!---   "8" | --->
+                        <!---   "16": --->
+                        <!--- </p> --->
+                        <p style="text-decoration: underline;">
+                          Konversi Basis "10" |
+                          "2" |
+                          "8" |
+                          "16":
+                        </p>
+                      </h2>
+                      Masukkan Batas Generate Konversi = <input type="text" name="a" value="{{a_post}}" />
+                      <input type="submit" value="Klik Run"/>
+                      <br>
+                      <table border ="1">
+                            <tr>
+                              <td align = "center">&nbsp; Decimal ( base r=10 ) &nbsp;</td>
+                              <td align = "center">&nbsp; Binary ( base r=2) &nbsp;</td>
+                              <td align = "center">&nbsp; Octal ( base r=8 ) &nbsp;</td>
+                              <td align = "center">&nbsp; Hexadecimal ( base r=16 ) &nbsp;</td>
+                            </tr>
+                            {% for angka_basis_10, angka_basis_2, angka_basis_8, angka_basis_16  in basis_all  %}
+                            <tr>
+                              <td align = "center">{{angka_basis_10}}</td>
+                              <td align = "center">{{angka_basis_2}}</td>
+                              <td align = "center">{{angka_basis_8}}</td>
+                              <td align = "center">{{angka_basis_16}}</td>
+                            </tr>
+                            {% endfor %}
+                      </table>
+                  </form>
+            '''
+        return render_template_string(A_a+template_view+Z_z, a_post = dec-1, basis_all = zip(basis_10, basis_2, basis_8, basis_16))
+    else: # untuk yang 'GET' data awal untuk di send ke /code_2_1_2_2
+        template_view = '''
+                  <form action="/code_2_1_2_2" method="post">
+                      <h2>
+                        <!--- <p style="text-decoration: underline;"> --->
+                        <!---   Konversi Basis "10" | --->
+                        <!---   "2" | --->
+                        <!---   "8" | --->
+                        <!---   "16": --->
+                        <!--- </p> --->
+                        <p style="text-decoration: underline;">
+                          Konversi Basis "10" |
+                          "2" |
+                          "8" |
+                          "16":
+                        </p>
+                      </h2>
+                      Masukkan Batas Generate Konversi = <input type="text" name="a" value="{{a_post}}" />
+                      <input type="submit" value="Klik Run"/>
+                      <br>
+                  </form>
+            '''
+
+        return render_template_string(A_a+template_view+Z_z)
 
 # End =============================
 # 2.1 Pengantar Sistem Bilangan
@@ -340,22 +474,6 @@ def code_2_2_1():
     # &nbsp; adalah spasi
 
     template_view = '''
-        {% extends "extends/base.html" %}
-        {% block title %}
-            <title>Web App MatKom Dgn Python</title>
-        {% endblock title %}
-        {{ self.title() }}
-            Home
-        {{ self.title() }}
-        <button onclick="window.location.href='/'" class="btn btn-outline btn-rounded btn-info">
-            <i class="ti-arrow-left m-l-5"></i>
-            <span>Back Home</span>
-        </button> Project 1
-
-        {{ self.title() }}
-            Project 1
-
-        {% block content %}
         <!--- <html> --->
         <!--- <head> --->
         <!--- </head> --->
@@ -400,12 +518,9 @@ def code_2_2_1():
 
             <!--- </body> --->
         <!--- </html> --->
-
-
-        {% endblock content %}
         '''
 
-    return render_template_string(template_view, pro_utk_tabel = list_hasil)
+    return render_template_string(A_a+template_view+Z_z, pro_utk_tabel = list_hasil)
 
 @app.route('/code_2_2_2')
 def code_2_2_2():
@@ -509,23 +624,6 @@ def code_2_2_2():
     # ------------------------------------------------------------------------------------------------
 
     template_view = '''
-        {% extends "extends/base.html" %}
-        {% block title %}
-            <title>Web App MatKom Dgn Python</title>
-        {% endblock title %}
-        {{ self.title() }}
-            Home
-        {{ self.title() }}
-        <button onclick="window.location.href='/'" class="btn btn-outline btn-rounded btn-info">
-            <i class="ti-arrow-left m-l-5"></i>
-            <span>Back Home</span>
-        </button> Project 1
-
-        {{ self.title() }}
-            Project 1
-
-        {% block content %}
-
         <!--- <html> --->
         <!--- <head> --->
         <!--- </head> --->
@@ -559,10 +657,9 @@ def code_2_2_2():
 
         <!--- </body> --->
         <!--- </html> --->
-        {% endblock content %}
         '''
 
-    return render_template_string(template_view, pro_utk_tabel = zip(pro.decode().tolist(), pro_hasil_logic.decode().tolist()))
+    return render_template_string(A_a+template_view+Z_z, pro_utk_tabel = zip(pro.decode().tolist(), pro_hasil_logic.decode().tolist()))
 
 # End =============================
 # 2.2 Logika Proposisi
@@ -1169,7 +1266,7 @@ def login():
 
       if hasil:
           session['name'] = v_login[3]
-          return redirect(url_for("code_2_2_1"))
+          return redirect(url_for("code_2_1_2_2"))
       else:
           msg = "Masukkan Username (Email) dan Password dgn Benar!"
 
