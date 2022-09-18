@@ -9,7 +9,7 @@ $ unzip pyMatKom-main.zip
 
 3. ketikkan 
 ---------------
-$mv ./pyMatKom-main ./mysite
+$mv ./pyMatKom-main/* ./mysite
 , lalu tekan Reload
 
 4. pip install -r ./mysite/requirements.txt
