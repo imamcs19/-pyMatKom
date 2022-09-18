@@ -27,6 +27,59 @@ def code_2_1(dec):
     hasil = '0' if hasil == '' else hasil
 
     return hasil
+	
+#
+# buatlah halaman post sekaligus get | Tipe 1
+# untuk hitung hasil Dec2Bin
+@app.route('/dec2bin', methods=["POST", "GET"])
+def dec2bin():
+
+    if request.method == 'POST': # dioperasikan dihalaman sendiri tanpa send ke route, misal /post_add2
+
+        dec = float(request.form['a'])
+
+        # hitung hasil dec2Bin atau basis 10 ke basis 2
+        # cara ke-1
+        binary = lambda n: '' if n==0 else binary(n//2) + str(n%2)
+
+        # cara ke-2
+        def decToBin(n):
+            if n==0:
+                return ''
+            else:
+                return decToBin(n//2) + str(n%2)
+
+        hasil = str(decToBin(int(dec)))
+        hasil = '0' if hasil == '' else hasil
+
+        return '''
+        <html>
+            <head>
+            </head>
+            <body>
+              <form method="post">
+                Masukkan nilai (basis 10) = <input type="text" name="a" value="%s" />
+                <input type="submit" value="Hitung Konversi basis 10 ke 2"/>
+              </form>
+              <h2>Hasil Dec2Bin = %s </h2>
+            </body>
+        </html>
+        ''' % (dec, hasil)
+
+    else: # untuk yang 'GET' data awal untuk di send ke /post_add2
+        return '''
+            <html>
+                <head>
+                </head>
+                <body>
+                  <form action="/dec2bin" method="post">
+                    Masukkan nilai (basis 10) = <input type="text" name="a" value="" />
+                    <input type="submit" value="Hitung Konversi basis 10 ke 2"/>
+                  </form>
+                </body>
+            </html>
+        '''
+
 
 @app.route('/2_1_0/<dec>')
 def code_2_1_0(dec):

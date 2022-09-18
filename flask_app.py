@@ -40,12 +40,40 @@ migrate = Migrate(app, db_qr)
 from static.qr_app.model.StudentModel import Student
 from static.qr_app.model.AttendanceModel import Attendance
 from static.qr_app.module.Camera import Scanner
-import pyqrcode
+# import pyqrcode
 import uuid
 
 CORS(app, resources=r'/api/*')
 
 app.secret_key = 'filkomub2223^&&*(&^(filkom#BJH#G#VB#MatKom99nDataPyICS_ap938255bnUB'
+
+# keterangan:
+# <br> adalah new line
+# &nbsp; adalah spasi
+# <!-- --> atau <!--- ---> adalah untuk comment
+
+FrameWeb_atas = """
+{% extends "extends/base.html" %}
+{% block title %}
+    <title>Web App MatKom Dgn Python</title>
+{% endblock title %}
+{{ self.title() }}
+    Home
+{{ self.title() }}
+<button onclick="window.location.href='/'" class="btn btn-outline btn-rounded btn-info">
+    <i class="ti-arrow-left m-l-5"></i>
+    <span>Back Home</span>
+</button> Project 1
+
+{{ self.title() }}
+    Project 1
+
+{% block content %}
+"""
+
+FrameWeb_bawah = """
+{% endblock content %}
+"""
 
 # @app.route('/')
 # def hello_matkom():
@@ -65,6 +93,62 @@ def code_2_1(dec):
     hasil = '0' if hasil == '' else hasil
 
     return hasil
+
+#
+# buatlah halaman post sekaligus get | Tipe 2
+# untuk hitung hasil Dec2Bin
+@app.route('/dec2bin_2', methods=["POST", "GET"])
+def dec2bin_2():
+
+    template_view_1 = '''
+            <!--- <html> --->
+            <!--- <head> --->
+            <!--- </head> --->
+            <!--- <body> --->
+                  <form method="post">
+                    Masukkan nilai (basis 10) = <input type="text" name="a" value="{{a_post}}" />
+                    <input type="submit" value="Hitung Konversi basis 10 ke 2"/>
+                  </form>
+                  <h2>Hasil Dec2Bin = {{ hasil }} </h2>
+            <!--- </body> --->
+            <!--- </html> --->
+        '''
+
+    template_view_2 = '''
+            <!--- <html> --->
+            <!--- <head> --->
+            <!--- </head> --->
+            <!--- <body> --->
+                  <form action="/dec2bin_2" method="post">
+                    Masukkan nilai (basis 10) = <input type="text" name="a" value="" />
+                    <input type="submit" value="Hitung Konversi basis 10 ke 2"/>
+                  </form>
+            <!--- </body> --->
+            <!--- </html> --->
+        '''
+
+    if request.method == 'POST': # dioperasikan dihalaman sendiri tanpa send ke route, misal /post_add2
+
+        dec = int(float(request.form['a']))
+
+        # hitung hasil dec2Bin atau basis 10 ke basis 2
+        # cara ke-1
+        binary = lambda n: '' if n==0 else binary(n//2) + str(n%2)
+
+        # cara ke-2
+        def decToBin(n):
+            if n==0:
+                return ''
+            else:
+                return decToBin(n//2) + str(n%2)
+
+        hasil = str(decToBin(int(dec)))
+        hasil = '0' if hasil == '' else hasil
+
+        return render_template_string(FrameWeb_atas+template_view_1+FrameWeb_bawah, a_post = dec, hasil = hasil)
+
+    else: # untuk yang 'GET' data awal untuk di send ke /post_add2
+        return render_template_string(FrameWeb_atas+template_view_2+FrameWeb_bawah)
 
 @app.route('/2_1_0/<dec>')
 def code_2_1_0(dec):
