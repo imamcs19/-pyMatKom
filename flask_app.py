@@ -6,31 +6,14 @@
 # 1. Imam Cholissodin, S.Si., M.Kom. | email: imamcs@ub.ac.id | Filkom UB
 
 from flask import Flask,render_template, Response, redirect,url_for,session,request,jsonify
-from flask import json, make_response, render_template_string
+from flask import render_template_string
 import sqlite3
 from flask_cors import CORS
 
 from flask import send_file
 from flask_qrcode import QRcode
 
-from requests.packages.urllib3.exceptions import ProtocolError
-from collections import OrderedDict
-from operator import itemgetter
-from textblob import TextBlob
-
-from tweepy.streaming import StreamListener
-
-import tweepy
-import re
-import string
-import datetime
-import joblib
-from flask import send_file
 from io import BytesIO
-
-from flask_wtf.file import FileField
-from wtforms import SubmitField
-from flask_wtf import FlaskForm
 import os
 
 app = Flask(__name__, static_folder='static')
@@ -40,7 +23,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 project_dir = os.path.dirname(os.path.abspath(__file__))
-database_file = "sqlite:///{}".format(os.path.join(project_dir, "static/qr_app/db/database.db"))
+database_file = "sqlite:///{}".format(os.path.join(project_dir, "static/qr_app/db/qrdata.db"))
 
 app.config["SQLALCHEMY_DATABASE_URI"] = database_file
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
@@ -71,7 +54,7 @@ app.secret_key = 'filkomub2223^&&*(&^(filkom#BJH#G#VB#MatKom99nDataPyICS_ap93825
 # Start =============================
 # 2.1 Pengantar Sistem Bilangan
 # ===================================
-@app.route('/2_1/<dec>')
+@app.route('/code_2_1/<dec>')
 def code_2_1(dec):
 
     # konversi "deca atau basis 10" ke "biner atau basis 2"
@@ -97,7 +80,7 @@ def code_2_1_0(dec):
 
     return hasil
 
-@app.route('/2_1_1')
+@app.route('/code_2_1_1')
 def code_2_1_1():
     # konversi "deca atau basis 10" ke "biner atau basis 2"
     # dengan library numpy
@@ -109,7 +92,7 @@ def code_2_1_1():
     return "a = " + str(a) + " (Basis 10) = " + str(np.binary_repr(a, width=8)) + " (Basis 2) <br>" + \
     "b = " + str(b) + " (Basis 10) = " + str(np.binary_repr(b, width=8)) + " (Basis 2)"
 
-@app.route('/2_1_2')
+@app.route('/code_2_1_2')
 def code_2_1_2():
     # mencoba konversi bilangan "Decimal ( base r=10 ) atau basis 10" |
     # "Binary ( base r=2) atau basis 2" |
@@ -172,7 +155,7 @@ def code_2_1_2():
     import numpy as np
 
     # generate angka dengan basis 10
-    batas_generate = 20
+    batas_generate = 18
     basis_10 = np.arange(0,batas_generate,1)
 
     # menampung hasil konversi
@@ -189,18 +172,36 @@ def code_2_1_2():
         # basis_10 ke basis_16
         basis_16.append(konversiBilangan(angka_basis_10,10,16))
 
-
     template_view = '''
-        <html>
-            <head>
-            </head>
-            <body>
+        {% extends "extends/base.html" %}
+        {% block title %}
+            <title>Web App MatKom Dgn Python</title>
+        {% endblock title %}
+        {{ self.title() }}
+            Home
+        {{ self.title() }}
+        <button onclick="window.location.href='/'" class="btn btn-outline btn-rounded btn-info">
+            <i class="ti-arrow-left m-l-5"></i>
+            <span>Back Home</span>
+        </button> Project 1
+
+        {{ self.title() }}
+            Project 1
+
+        {% block content %}
+
               <h2>
+                <!--- <p style="text-decoration: underline;"> --->
+                <!---   Mencoba konversi bilangan "Decimal ( base r=10 ) atau basis 10" | --->
+                <!---   "Binary ( base r=2) atau basis 2" | --->
+                <!---   "Octal ( base r=8 ) atau basis 8" | --->
+                <!---   "Hexadecimal ( base r=16 ) atau basis 16": --->
+                <!--- </p> --->
                 <p style="text-decoration: underline;">
-                  Mencoba konversi bilangan "Decimal ( base r=10 ) atau basis 10" |
-                  "Binary ( base r=2) atau basis 2" |
-                  "Octal ( base r=8 ) atau basis 8" |
-                  "Hexadecimal ( base r=16 ) atau basis 16:
+                  Mencoba konversi bilangan "Decimal basis 10" |
+                  "Binary basis 2" |
+                  "Octal basis 8" |
+                  "Hexadecimal basis 16":
                 </p>
               </h2>
               <table border ="1">
@@ -219,10 +220,9 @@ def code_2_1_2():
                     </tr>
                     {% endfor %}
               </table>
-            </body>
-        </html>
-        '''
 
+        {% endblock content %}
+        '''
     return render_template_string(template_view, basis_all = zip(basis_10, basis_2, basis_8, basis_16))
 
 # End =============================
@@ -233,7 +233,7 @@ def code_2_1_2():
 # 2.2 Logika Proposisi
 # ===================================
 
-@app.route('/2_2_1')
+@app.route('/code_2_2_1')
 def code_2_2_1():
     # mencoba operator logika "and", "or", "negation" & "xor"
     import numpy as np
@@ -241,23 +241,53 @@ def code_2_2_1():
     a = 10
     b = 4
 
-    return '''
-        <html>
-            <head>
-            </head>
-            <body>
-              <h2><p style="text-decoration: underline;">Mencoba operator logika: </p></h2>
+    list_hasil = []
+    list_hasil.append(str(a))
+    list_hasil.append(str(np.binary_repr(a, width=8)))
+    list_hasil.append(str(b))
+    list_hasil.append(str(np.binary_repr(b, width=8)))
+    list_hasil.append(str(np.binary_repr(a & b, width=8)))
+    list_hasil.append(str(np.binary_repr(a | b, width=8)))
+    list_hasil.append(str(np.binary_repr(~a, width=8)))
+    list_hasil.append(str(np.binary_repr(a ^ b, width=8)))
+
+    template_view = '''
+        {% extends "extends/base.html" %}
+        {% block title %}
+            <title>Web App MatKom Dgn Python</title>
+        {% endblock title %}
+        {{ self.title() }}
+            Home
+        {{ self.title() }}
+        <button onclick="window.location.href='/'" class="btn btn-outline btn-rounded btn-info">
+            <i class="ti-arrow-left m-l-5"></i>
+            <span>Back Home</span>
+        </button> Project 1
+
+        {{ self.title() }}
+            Project 1
+
+        {% block content %}
+        <!--- <html> --->
+        <!--- <head> --->
+        <!--- </head> --->
+        <!--- <body> --->
+
+              <h2><p style="text-decoration: underline;">Mencoba Konversi Dec2Bin & Operasi logika: </p></h2>
+
               <table border ="1">
+
                     <tr>
-                      <td>a =</td>
-                      <td align = "right">%s (Basis 10) = </td>
-                      <td>%s (Basis 2)</td>
+                      <td align = "center">&nbsp; a = &nbsp;</td>
+                      <td align = "center">&nbsp; {{ pro_utk_tabel[0] }} (Basis 10) = &nbsp; </td>
+                      <td align = "center">&nbsp; {{ pro_utk_tabel[1] }} (Basis 2) &nbsp;</td>
                     </tr>
                     <tr>
-                      <td>b =</td>
-                      <td align = "right">%s (Basis 10) = </td>
-                      <td>%s (Basis 2)</td>
+                      <td align = "center">b =</td>
+                      <td align = "center">{{ pro_utk_tabel[2] }} (Basis 10) = </td>
+                      <td align = "center">{{ pro_utk_tabel[3] }} (Basis 2)</td>
                     </tr>
+
               </table>
 
               <br>
@@ -265,25 +295,31 @@ def code_2_2_1():
               <form method="post">
                 <table border ="1">
                     <tr>
-                      <td>Operasi AND</td>
-                      <td>Operasi OR</td>
-                      <td>Operasi NOT</td>
-                      <td>Operasi XOR</td>
+                      <td align = "center">&nbsp; Operasi AND &nbsp;</td>
+                      <td align = "center">&nbsp; Operasi OR &nbsp;</td>
+                      <td align = "center">&nbsp; Operasi NOT &nbsp;</td>
+                      <td align = "center">&nbsp; Operasi XOR &nbsp;</td>
                     </tr>
                     <tr>
-                      <td>%s</td>
-                      <td>%s</td>
-                      <td>%s</td>
-                      <td>%s</td>
+                      <td align = "center">&nbsp; {{ pro_utk_tabel[4] }} &nbsp;</td>
+                      <td align = "center">&nbsp; {{ pro_utk_tabel[5] }} &nbsp;</td>
+                      <td align = "center">&nbsp; {{ pro_utk_tabel[6] }} &nbsp;</td>
+                      <td align = "center">&nbsp; {{ pro_utk_tabel[7] }} &nbsp;</td>
                     </tr>
                 </table>
+
               </form>
 
-            </body>
-        </html>
-        ''' % (str(a), str(np.binary_repr(a, width=8)), str(b), str(np.binary_repr(b, width=8)), str(np.binary_repr(a & b, width=8)), str(np.binary_repr(a | b, width=8)), str(np.binary_repr(~a, width=8)), str(np.binary_repr(a ^ b, width=8)))
+            <!--- </body> --->
+        <!--- </html> --->
 
-@app.route('/2_2_2')
+
+        {% endblock content %}
+        '''
+
+    return render_template_string(template_view, pro_utk_tabel = list_hasil)
+
+@app.route('/code_2_2_2')
 def code_2_2_2():
     # Contoh Latihan Soal:
     # -------------------------
@@ -385,10 +421,28 @@ def code_2_2_2():
     # ------------------------------------------------------------------------------------------------
 
     template_view = '''
-        <html>
-            <head>
-            </head>
-            <body>
+        {% extends "extends/base.html" %}
+        {% block title %}
+            <title>Web App MatKom Dgn Python</title>
+        {% endblock title %}
+        {{ self.title() }}
+            Home
+        {{ self.title() }}
+        <button onclick="window.location.href='/'" class="btn btn-outline btn-rounded btn-info">
+            <i class="ti-arrow-left m-l-5"></i>
+            <span>Back Home</span>
+        </button> Project 1
+
+        {{ self.title() }}
+            Project 1
+
+        {% block content %}
+
+        <!--- <html> --->
+        <!--- <head> --->
+        <!--- </head> --->
+        <!--- <body> --->
+
               <h2>
                 <p style="text-decoration: underline;">
                   Mencoba membuat Tabel Kebenaran:
@@ -396,12 +450,12 @@ def code_2_2_2():
               </h2>
               <table border ="1">
                     <tr>
-                      <td align = "center">p</td>
-                      <td align = "center">q</td>
-                      <td align = "center">r</td>
-                      <td align = "center">Si A ((~q)∧ r)</td>
-                      <td align = "center">Si B ((~p) → (~r))</td>
-                      <td align = "center">Si C (r ∧ ((~p) ∨ (~q)))	</td>
+                      <td align = "center">&nbsp; p &nbsp;</td>
+                      <td align = "center">&nbsp; q &nbsp;</td>
+                      <td align = "center">&nbsp; r &nbsp;</td>
+                      <td align = "center">&nbsp; Si A ((~q)∧ r) &nbsp;</td>
+                      <td align = "center">&nbsp; Si B ((~p) → (~r)) &nbsp;</td>
+                      <td align = "center">&nbsp; Si C (r ∧ ((~p) ∨ (~q))) &nbsp;</td>
                     </tr>
                     {% for pro_init, pro_hasil  in pro_utk_tabel  %}
                     <tr>
@@ -414,8 +468,10 @@ def code_2_2_2():
                     </tr>
                     {% endfor %}
               </table>
-            </body>
-        </html>
+
+        <!--- </body> --->
+        <!--- </html> --->
+        {% endblock content %}
         '''
 
     return render_template_string(template_view, pro_utk_tabel = zip(pro.decode().tolist(), pro_hasil_logic.decode().tolist()))
@@ -429,9 +485,7 @@ def manipulate_tabel(aksi):
     conn = connect_db()
     db = conn.cursor()
 
-    # Aksi => Edit, Hapus, Play, Extenf Date Berlaku
-
-    # db.execute("DROP TABLE IF EXISTS '" + DATABASE_TABLE + "'");
+    # Aksi => Buat, Hapus
 
     if aksi == 'c':
         str_info = 'tabel berhasil dibuat :D'
@@ -1026,7 +1080,7 @@ def login():
 
       if hasil:
           session['name'] = v_login[3]
-          return redirect(url_for("2_2_1"))
+          return redirect(url_for("code_2_2_1"))
       else:
           msg = "Masukkan Username (Email) dan Password dgn Benar!"
 

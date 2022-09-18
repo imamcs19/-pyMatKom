@@ -227,6 +227,7 @@ def code_2_2_1():
             </body>
         </html>
         ''' % (str(a), str(np.binary_repr(a, width=8)), str(b), str(np.binary_repr(b, width=8)), str(np.binary_repr(a & b, width=8)), str(np.binary_repr(a | b, width=8)), str(np.binary_repr(~a, width=8)), str(np.binary_repr(a ^ b, width=8)))
+	
 
 @app.route('/2_2_2')
 def code_2_2_2():
