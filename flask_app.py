@@ -1266,7 +1266,7 @@ def login():
 
       if hasil:
           session['name'] = v_login[3]
-          return redirect(url_for("code_2_1_2_2"))
+          return redirect(url_for("launchpad_menu"))
       else:
           msg = "Masukkan Username (Email) dan Password dgn Benar!"
 
@@ -1275,7 +1275,7 @@ def login():
 @app.route("/register", methods=["GET", "POST"])
 def register():
   conn = connect_db()
-  db = conn.cursor()
+  # db = conn.cursor()
   if request.method == "POST":
       mail = request.form['mail']
       uname = request.form['uname']
@@ -1508,8 +1508,6 @@ def scanner():
         else:
             break
 
-@app.route('/menu')
+@app.route('/launchpad_menu')
 def launchpad_menu():
-   return render_template("launchpad_menu3.html")
-   #return render_template("launchpad_menu2.html")
-   #return render_template("launchpad_menu.html")
+   return render_template("launchpad_menu.html")
