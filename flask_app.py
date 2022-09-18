@@ -1026,7 +1026,7 @@ def login():
 
       if hasil:
           session['name'] = v_login[3]
-          return redirect(url_for("contohfp2_nonspark"))
+          return redirect(url_for("2_2_1"))
       else:
           msg = "Masukkan Username (Email) dan Password dgn Benar!"
 
