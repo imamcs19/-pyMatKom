@@ -665,6 +665,65 @@ def code_2_2_2():
 # 2.2 Logika Proposisi
 # ===================================
 
+# himpunan bagian
+@app.route('/code_himpunan_bagian')
+def code_himpunan_bagian():
+
+    # Ref:
+    # https://stackoverflow.com/questions/1482308/how-to-get-all-subsets-of-a-set-powerset
+    # fungsi untuk himpunan bagian
+    def powerset(x):
+        m=[]
+        if not x:
+            m.append(x)
+        else:
+            A = x[0]
+            B = x[1:]
+            for z in powerset(B):
+                m.append(z)
+                r = [A] + z
+                m.append(r)
+        return m
+    himpunan = [1, 2, 3, 4]
+    hasil = powerset(himpunan)
+
+    template_view = '''
+        <!--- <html> --->
+        <!--- <head> --->
+        <!--- </head> --->
+        <!--- <body> --->
+
+              <h2>
+                <p style="text-decoration: underline;">
+                  Mencoba membuat Himpunan Bagian dari:
+                  [
+                  {% for himpunan_get  in himpunan  %}
+                    {{himpunan_get}}
+                    {{ ", " if not loop.last else "" }}
+                  {% endfor %}
+                  ]
+                </p>
+              </h2>
+              <table border ="1">
+                    <tr>
+                      <td align = "center">&nbsp; ke-i &nbsp;</td>
+                      <td align = "center">&nbsp; Isi Subset &nbsp;</td>
+                    </tr>
+                    {% for subset_get  in hasil  %}
+                    <tr>
+                      <td align = "center">{{ loop.index }}</td>
+                      <td align = "center">{{ subset_get }}</td>
+
+                    </tr>
+                    {% endfor %}
+              </table>
+
+        <!--- </body> --->
+        <!--- </html> --->
+        '''
+
+    return render_template_string(A_a+template_view+Z_z, himpunan = himpunan, hasil = hasil)
+
 @app.route('/db/<aksi>')
 def manipulate_tabel(aksi):
     conn = connect_db()
