@@ -684,7 +684,12 @@ def code_himpunan_bagian():
                 r = [A] + z
                 m.append(r)
         return m
-    himpunan = [1, 2, 3, 4]
+    # himpunan = [1, 2, 3, 4]
+
+    # S = {a, d, m, i, n, t, e, s, l}
+    # Coba Buat Himpunan Bagian dari S, sebanyak 2^ |S|
+    himpunan = ['a', 'd', 'm', 'i', 'n', 't', 'e', 's', 'l']
+
     hasil = powerset(himpunan)
 
     template_view = '''
