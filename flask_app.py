@@ -857,6 +857,7 @@ def code_plot_diagram_venn():
 
     url_file_image_simpan3 = os.path.join(BASE_DIR, url_simpan3)
     plt.savefig(url_file_image_simpan3)
+    plt.close()
 
 
     data_himpunan = []
