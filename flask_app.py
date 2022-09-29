@@ -16,6 +16,25 @@ from flask_qrcode import QRcode
 from io import BytesIO
 import os
 
+import io
+import base64
+
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import math
+
+from bokeh.embed import components
+from bokeh.plotting import figure
+from bokeh.resources import INLINE
+# from bokeh.util.string import encode_utf8
+
+from matplotlib_venn import venn2, venn2_circles, venn2_unweighted
+from matplotlib_venn import venn3, venn3_circles
+
 app = Flask(__name__, static_folder='static')
 qrcode = QRcode(app)
 
@@ -728,6 +747,126 @@ def code_himpunan_bagian():
         '''
 
     return render_template_string(A_a+template_view+Z_z, himpunan = himpunan, hasil = hasil)
+
+@app.route('/code_plot_diagram_venn', methods=['GET'])
+def code_plot_diagram_venn():
+
+    import time
+    import os.path
+
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+    template_view = '''
+            <!--- <html> --->
+            <!--- <head> --->
+            <!--- </head> --->
+            <!--- <body> --->
+            <h2>
+                <p style="text-decoration: underline;">
+                  Plot Diagram Venn (2 Himpunan dan 3 Himpunan):
+                </p>
+            </h2>
+                  <form method="post">
+                   {%for data_get in data_himpunan %}
+                    Data Himpunan {{ loop.index }}: <br>
+                    {{ data_get }}
+                    <br><br>
+                   {%endfor%}
+                  </form>
+                  <h2>Plot 2 Himpunan:  </h2>
+                  <img src={{url_image2}} alt="Chart" height="480" width="640">
+                  <br><br>
+                  <h2>Plot 3 Himpunan:  </h2>
+                  <img src={{url_image3}} alt="Chart" height="480" width="640">
+
+                  <br><br>
+
+                  <div class="row">
+                    <!-- .col -->
+                    <div class="col-sm-12">
+                        <div class="white-box">
+                            <h3 class="box-title m-b-0">Plot Diagram Venn dgn Animasi</h3>
+                            <div id="image-popups" class="row">
+                                <div class="col-sm-2">
+                                    <a href={{url_image2}} data-effect="mfp-zoom-in"><img src={{url_image2}} class="img-responsive">
+                                        <br>Plot 2 Himpunan</a>
+                                </div>
+                                <div class="col-sm-2">
+                                    <a href={{url_image3}} data-effect="mfp-newspaper"><img src={{url_image3}} class="img-responsive">
+                                        <br>Plot 3 Himpunan</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- .col -->
+                </div>
+
+            <!--- </body> --->
+            <!--- </html> --->
+        '''
+
+
+    # contoh membuat set elemen anggota himpunan
+    Himpunan_1 = ['A','I','U','E','O']
+    Himpunan_2 = ['F','I','L','K','O','M','U','B','2','0','2','2']
+    Himpunan_3 = ['M','A','T','K','O','M']
+
+
+
+    # Cara plot
+    # ---------------
+    # simpan dalam path + nama file /static/img/diagram_venn2.png
+    url_simpan2 = "static/img/diagram_venn2.png"
+
+    # simpan dalam path + nama file /static/img/diagram_venn3.png
+    url_simpan3 = "static/img/diagram_venn3.png"
+
+    # fig = plt.figure()
+    # Contoh untuk visualiasi 2 set himpunan
+    # Misal membuat Diagram Venn yang terdiri dari 2 groups himpunan, menggunakan sintaks venn2.
+    # dengan dibuat ukuran shape-nya sama
+    # dimana r = red, g = green, b = blue, alpha menyatakan nilai rasion transparansi
+    c2 = venn2_unweighted(subsets = (12, 5, 2), set_labels = ('Himpunan A', 'Himpunan B'), set_colors=('g', 'b'), alpha = 0.5);
+
+    plt.show()
+
+    url_file_image_simpan2 = os.path.join(BASE_DIR, url_simpan2)
+    plt.savefig(url_file_image_simpan2)
+    plt.close()
+
+
+    # reopen plt untuk visualiasi 3 set himpunan
+    plt.figure()
+
+    # Contoh untuk visualiasi 3 set himpunan
+    vd3=venn3([set(Himpunan_1),set(Himpunan_2),set(Himpunan_3)], set_labels=('Himpunan 1', 'Himpunan 2','Himpunan 3'), set_colors=('#c4e6ff', '#F4ACB7','#9D8189'), alpha = 0.8)
+
+    c3=venn3_circles([set(Himpunan_1), set(Himpunan_2),set(Himpunan_3)], linestyle='-.', linewidth=2, color='grey')
+    for text in vd3.set_labels:
+        text.set_fontsize(16);
+    for text in vd3.subset_labels:
+        text.set_fontsize(16)
+
+    plt.title('Venn Diagram untuk 3 Himpunan',fontname='DejaVu Sans',fontweight='bold',fontsize=20, pad=15,backgroundcolor='#cbe7e3',color='black',style='italic');
+
+    c3[0].set_lw(7.0)
+    c3[0].set_ls(':')
+    c3[0].set_color('#c4e6ff')
+    plt.show()
+
+    url_file_image_simpan3 = os.path.join(BASE_DIR, url_simpan3)
+    plt.savefig(url_file_image_simpan3)
+
+
+    data_himpunan = []
+    data_himpunan.append("[\'"+"' , '".join([x for x in Himpunan_1])+"\']")
+    data_himpunan.append("[\'"+"' , '".join([x for x in Himpunan_2])+"\']")
+    data_himpunan.append("[\'"+"' , '".join([x for x in Himpunan_3])+"\']")
+
+
+    # return hasil
+    return render_template_string(A_a+template_view+Z_z, data_himpunan = data_himpunan, url_image2 = url_simpan2, url_image3 = url_simpan3)
 
 @app.route('/db/<aksi>')
 def manipulate_tabel(aksi):
