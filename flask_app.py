@@ -104,6 +104,44 @@ Z_z = FrameWeb_bawah
 # def hello_matkom():
 #    return 'Hello Students | Koding Matematika Komputasi (MatKom) pada Teknologi Cloud :D'
 
+@app.route('/fib/<dec>')
+def fib(dec):
+    # Basis		:  fib(0) = 0;  fib(1) = 1
+    # Rekursif	:  fib(n) = fib(n – 1) + fib(n – 2)
+    n = int(dec)
+
+    # cara ke-1
+    def fn_fib(n):
+        if (n == 0 or n==1):
+            return n
+        else:
+            return fn_fib(n-1) + fn_fib(n-2)
+
+    # cara ke-2
+    # def fn_fib(n):
+    #     return int(((1+(5**0.5))**n - (1-(5**0.5))**n)/((2**n)*(5**0.5)))
+
+    #cara ke-3
+    # ref: https://stackoverflow.com/questions/18172257/efficient-calculation-of-fibonacci-series
+    def fn_fib2(n):
+        if n == 0:
+            return (0, 1)
+        else:
+            a, b = fn_fib2(n // 2)
+            c = a * (b * 2 - a)
+            d = a * a + b * b
+            if n % 2 == 0:
+                return (c, d)
+            else:
+                return (d, c + d)
+
+    # membuat looping hasil fib
+    hasil = []
+    for i in range(n):
+        hasil.append(fn_fib2(i)[0])
+
+    return str(hasil)
+
 # Start =============================
 # 2.1 Pengantar Sistem Bilangan
 # ===================================
