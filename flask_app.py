@@ -100,9 +100,82 @@ FrameWeb_bawah = """
 """
 Z_z = FrameWeb_bawah
 
-# @app.route('/')
-# def hello_matkom():
-#    return 'Hello Students | Koding Matematika Komputasi (MatKom) pada Teknologi Cloud :D'
+@app.route('/')
+def hello_matkom():
+    return 'Hello Students | Koding Matematika Komputasi (MatKom) pada Teknologi Cloud :D'
+
+@app.route('/prim/<dec>')
+def prim(dec):
+    n = int(dec)
+
+    # cara ke-1
+    # Wilson's theorem
+    def fn_prim(n):
+        return 1 + sum([
+            math.floor(pow(n/sum([
+                math.floor(pow(math.cos(math.pi * (math.factorial(j - 1) + 1)/j), 2))
+                for j in range(1, i+1)
+            ]), 1/n))
+            for i in range(1, pow(2, n)+1)
+        ])
+
+    # # membuat looping hasil prima untuk cara ke-1
+    # hasil = []
+    # for i in range(n):
+    #     hasil.append(fn_prim(i+1))
+
+    # cara ke-2
+    # Willans gave the formula
+    def fn_prim2(n):
+        return math.floor( ( math.factorial(n)%(n+1) ) /n )*(n-1) + 2
+
+    # # membuat looping hasil prima untuk cara ke-2
+    # hasil = []
+
+    # num_search_prim = 1
+    # flag = True
+    # while(flag):
+    #     hasil_init = fn_prim2(num_search_prim)
+    #     if hasil_init not in hasil:
+    #         hasil.append(hasil_init)
+
+    #     if(len(hasil) == n):
+    #         flag = False
+
+    #     num_search_prim +=1
+
+    # cara ke-3, by _
+    # membuat looping hasil prima
+    hasil = []
+
+    num_search_prim = 1
+    flag = True
+    while(flag):
+        # hasil_init = fn_prim2(num_search_prim)
+
+        if(num_search_prim==1):
+          hasil_init = 2
+          hasil.append(hasil_init)
+
+        else:
+          sqrt_num_search_prim = int((num_search_prim+1)**0.5)
+          filter_pembagi = filter(lambda x: x <= sqrt_num_search_prim, hasil)
+          len_cek = len(list(filter(lambda x: x==0, map(lambda x: (num_search_prim + 1)%x, filter_pembagi))))
+
+          # cek apakah ada yg membagi habis
+          if len_cek ==0:
+            # print('tidak ada yang membagi habis')
+            hasil_init = num_search_prim + 1
+            hasil.append(hasil_init)
+          # else:
+          #   print('ada yang membagi habis')
+
+        if(len(hasil) == n):
+            flag = False
+
+        num_search_prim +=1
+
+    return str(hasil)
 
 @app.route('/fib/<dec>')
 def fib(dec):
