@@ -107,13 +107,7 @@ def hello_matkom():
 @app.route('/contoh_exp_matrix', methods=['POST', 'GET'])
 def contoh_exp_matrix():
 
-    if request.method == 'POST': # dioperasikan dihalaman sendiri tanpa send ke route, misal /contoh_exp_matrix
-
-        var1_in = float(request.form['var1'])
-        var2_in = request.form['var2']
-        c = 2*var1_in
-
-        template_view = '''
+    template_view = '''
             <script type="text/javascript" src="{{ url_for('static', filename = 'js/jquery.min.js') }}"></script>
             <div class="row">
                     <div class="col-md-6">
@@ -122,22 +116,15 @@ def contoh_exp_matrix():
                             <p class="text-muted m-b-30 font-13"> detail nilai elemen matriks Anda </p>
                             <form action="/contoh_exp_matrix" method="post" class="form-horizontal">
                                 <div class="form-group">
-                                    <label for="exampleInputuname" class="col-sm-3 control-label">Ukuran Baris*</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <input type="text" name="var1" {% if var1 is defined and var1 %} value="{{var1}}" {% else %} value="" {% endif %} class="form-control" id="exampleInputuname" placeholder="3" required="required">
-                                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                                    <p class="text-muted">Ukuran Matrik:</p>
+                                        <div class="col-md-2">
+                                        <input type="text" name="var1" {% if var1 is defined and var1 %} value="{{var1}}" {% else %} value="" {% endif %} class="form-control" id="exampleInputuname" placeholder="Baris" required="required">
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputuname" class="col-sm-3 control-label">Ukuran Kolom*</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <input type="text" name="var2" {% if var2 is defined and var2 %} value="{{var2}}" {% else %} value="" {% endif %} class="form-control" id="exampleInputuname" placeholder="3" required="required">
-                                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                                        <div class="col-md-2">
+                                            <div class="input-group">
+                                                <input type="text" name="var2" {% if var2 is defined and var2 %} value="{{var2}}" {% else %} value="" {% endif %} class="form-control" id="exampleInputuname" placeholder="Kolom" required="required">
+                                            </div>
                                         </div>
-                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <p class="text-muted">Matrik A:</p>
@@ -180,13 +167,13 @@ def contoh_exp_matrix():
                                             <tbody>
                                                 <tr>
                                                     <td>Baris 1</td>
-                                                    <td>7</td>
-                                                    <td>4</td>
+                                                    <td>{% if d_in is defined and d_in %} {{d_in[0][0]}} {% endif %}</td>
+                                                    <td>{% if d_in is defined and d_in %} {{d_in[0][1]}} {% endif %}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Baris 2</td>
-                                                    <td>-2</td>
-                                                    <td>1</td>
+                                                    <td>{% if d_in is defined and d_in %} {{d_in[1][0]}} {% endif %}</td>
+                                                    <td>{% if d_in is defined and d_in %} {{d_in[1][1]}} {% endif %}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -207,13 +194,13 @@ def contoh_exp_matrix():
                                             <tbody>
                                                 <tr>
                                                     <td>Baris 1</td>
-                                                    <td>7</td>
-                                                    <td>4</td>
+                                                    <td>{% if p_in is defined and p_in %} {{p_in[0][0]}} {% endif %}</td>
+                                                    <td>{% if p_in is defined and p_in %} {{p_in[0][1]}} {% endif %}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Baris 2</td>
-                                                    <td>-2</td>
-                                                    <td>1</td>
+                                                    <td>{% if p_in is defined and p_in %} {{p_in[1][0]}} {% endif %}</td>
+                                                    <td>{% if p_in is defined and p_in %} {{p_in[1][1]}} {% endif %}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -234,13 +221,13 @@ def contoh_exp_matrix():
                                             <tbody>
                                                 <tr>
                                                     <td>Baris 1</td>
-                                                    <td>7</td>
-                                                    <td>4</td>
+                                                    <td>{% if inv_p_in is defined and inv_p_in %} {{inv_p_in[0][0]}} {% endif %}</td>
+                                                    <td>{% if inv_p_in is defined and inv_p_in %} {{inv_p_in[0][1]}} {% endif %}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Baris 2</td>
-                                                    <td>-2</td>
-                                                    <td>1</td>
+                                                    <td>{% if inv_p_in is defined and inv_p_in %} {{inv_p_in[1][0]}} {% endif %}</td>
+                                                    <td>{% if inv_p_in is defined and inv_p_in %} {{inv_p_in[1][1]}} {% endif %}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -258,13 +245,12 @@ def contoh_exp_matrix():
                     <div class="col-md-6">
                         <div class="white-box row">
                             <h3 class="box-title m-b-0">Hasil Exponential Matriksnya exp(A) adalah</h3>
-                            {% if c_save is defined and c_save %}
-                            <p class="text-muted m-b-30 font-13"> Nilai Skor = {{c_save}} </p>
+                            {% if c_save_a is defined and c_save_a %}
+                            <p class="text-muted m-b-30 font-13"> A = P*D*inv(P) = {{c_save_a_hitung}} </p>
                             {% endif %}
                             <div class="mt-8">
                                 {% if var1 is defined and var1 %}
-                                <p>Ukuran Baris Matriks: {{var1}} tahun</p>
-                                <p>Ukuran Kolom Matriks: {{var2}}</p>
+                                <p>Ukuran Matriks: {{var1}} x {{var2}}</p>
                                 {% endif %}
                             </div>
 
@@ -278,16 +264,153 @@ def contoh_exp_matrix():
                                         </tr>
                                     </thead>
                                     <tbody>
+                                            <tr>
+                                                <td>Baris 1</td>
+                                                <td>{% if exp_a_in is defined and exp_a_in %} {{'%0.4f'|format(exp_a_in[0][0]|float)}} {% endif %}</td>
+                                                <td>{% if exp_a_in is defined and exp_a_in %} {{'%0.4f'|format(exp_a_in[0][1]|float)}} {% endif %}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Baris 2</td>
+                                                <td>{% if exp_a_in is defined and exp_a_in %} {{'%0.4f'|format(exp_a_in[1][0]|float)}} {% endif %}</td>
+                                                <td>{% if exp_a_in is defined and exp_a_in %} {{'%0.4f'|format(exp_a_in[1][1]|float)}} {% endif %}</td>
+                                            </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="white-box row">
+                            <h3 class="box-title m-b-0">Hasil ln Matriks A atau ln(A) adalah</h3>
+
+                            <div class="table-responsive">
+                                <table class="table color-bordered-table info-bordered-table">
+                                    <thead>
                                         <tr>
-                                            <td>Baris 1</td>
-                                            <td>7</td>
-                                            <td>4</td>
+                                            <th>#</th>
+                                            <th>Kolom 1</th>
+                                            <th>Kolom 2</th>
                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                            <tr>
+                                                <td>Baris 1</td>
+                                                <td>{% if ln_a_in is defined and ln_a_in %} {{'%0.4f'|format(ln_a_in[0][0]|float)}} {% endif %}</td>
+                                                <td>{% if ln_a_in is defined and ln_a_in %} {{'%0.4f'|format(ln_a_in[0][1]|float)}} {% endif %}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Baris 2</td>
+                                                <td>{% if ln_a_in is defined and ln_a_in %} {{'%0.4f'|format(ln_a_in[1][0]|float)}} {% endif %}</td>
+                                                <td>{% if ln_a_in is defined and ln_a_in %} {{'%0.4f'|format(ln_a_in[1][1]|float)}} {% endif %}</td>
+                                            </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="white-box row">
+                            <h3 class="box-title m-b-0">Hasil akar Matriks A atau sqrt(A) Type 1 atau Cara 1 adalah</h3>
+
+                            <div class="table-responsive">
+                                <table class="table color-bordered-table info-bordered-table">
+                                    <thead>
                                         <tr>
-                                            <td>Baris 2</td>
-                                            <td>-2</td>
-                                            <td>1</td>
+                                            <th>#</th>
+                                            <th>Kolom 1</th>
+                                            <th>Kolom 2</th>
                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                            <tr>
+                                                <td>Baris 1</td>
+                                                <td>{% if sqrt_a_in is defined and sqrt_a_in %} {{'%0.4f'|format(sqrt_a_in[0][0]|float)}} {% endif %}</td>
+                                                <td>{% if sqrt_a_in is defined and sqrt_a_in %} {{'%0.4f'|format(sqrt_a_in[0][1]|float)}} {% endif %}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Baris 2</td>
+                                                <td>{% if sqrt_a_in is defined and sqrt_a_in %} {{'%0.4f'|format(sqrt_a_in[1][0]|float)}} {% endif %}</td>
+                                                <td>{% if sqrt_a_in is defined and sqrt_a_in %} {{'%0.4f'|format(sqrt_a_in[1][1]|float)}} {% endif %}</td>
+                                            </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                        <div class="white-box row">
+                            <h3 class="box-title m-b-0">Hasil akar Matriks A atau sqrt(A) Type 2 atau Cara 2 adalah</h3>
+
+                            <div class="table-responsive">
+                                <table class="table color-bordered-table info-bordered-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Kolom 1</th>
+                                            <th>Kolom 2</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                            <tr>
+                                                <td>Baris 1</td>
+                                                <td>{% if sqrt_a_type_2_in is defined and sqrt_a_type_2_in %} {{'%0.4f'|format(sqrt_a_type_2_in[0][0]|float)}} {% endif %}</td>
+                                                <td>{% if sqrt_a_type_2_in is defined and sqrt_a_type_2_in %} {{'%0.4f'|format(sqrt_a_type_2_in[0][1]|float)}} {% endif %}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Baris 2</td>
+                                                <td>{% if sqrt_a_type_2_in is defined and sqrt_a_type_2_in %} {{'%0.4f'|format(sqrt_a_type_2_in[1][0]|float)}} {% endif %}</td>
+                                                <td>{% if sqrt_a_type_2_in is defined and sqrt_a_type_2_in %} {{'%0.4f'|format(sqrt_a_type_2_in[1][1]|float)}} {% endif %}</td>
+                                            </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="white-box row">
+                            <h3 class="box-title m-b-0">Hasil invers Matriks A atau inv(A) dengan Library dari numpy adalah</h3>
+
+                            <div class="table-responsive">
+                                <table class="table color-bordered-table info-bordered-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Kolom 1</th>
+                                            <th>Kolom 2</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                            <tr>
+                                                <td>Baris 1</td>
+                                                <td>{% if inv_a_by_lib_in is defined and inv_a_by_lib_in %} {{'%0.4f'|format(inv_a_by_lib_in[0][0]|float)}} {% endif %}</td>
+                                                <td>{% if inv_a_by_lib_in is defined and inv_a_by_lib_in %} {{'%0.4f'|format(inv_a_by_lib_in[0][1]|float)}} {% endif %}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Baris 2</td>
+                                                <td>{% if inv_a_by_lib_in is defined and inv_a_by_lib_in %} {{'%0.4f'|format(inv_a_by_lib_in[1][0]|float)}} {% endif %}</td>
+                                                <td>{% if inv_a_by_lib_in is defined and inv_a_by_lib_in %} {{'%0.4f'|format(inv_a_by_lib_in[1][1]|float)}} {% endif %}</td>
+                                            </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="white-box row">
+                            <h3 class="box-title m-b-0">Hasil invers Matriks A atau inv(A) dengan kaidah Exp(-1*ln(A)) adalah</h3>
+
+                            <div class="table-responsive">
+                                <table class="table color-bordered-table info-bordered-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Kolom 1</th>
+                                            <th>Kolom 2</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                            <tr>
+                                                <td>Baris 1</td>
+                                                <td>{% if inv_a_by_exp_in is defined and inv_a_by_exp_in %} {{'%0.4f'|format(inv_a_by_exp_in[0][0]|float)}} {% endif %}</td>
+                                                <td>{% if inv_a_by_exp_in is defined and inv_a_by_exp_in %} {{'%0.4f'|format(inv_a_by_exp_in[0][1]|float)}} {% endif %}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Baris 2</td>
+                                                <td>{% if inv_a_by_exp_in is defined and inv_a_by_exp_in %} {{'%0.4f'|format(inv_a_by_exp_in[1][0]|float)}} {% endif %}</td>
+                                                <td>{% if inv_a_by_exp_in is defined and inv_a_by_exp_in %} {{'%0.4f'|format(inv_a_by_exp_in[1][1]|float)}} {% endif %}</td>
+                                            </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -304,201 +427,89 @@ def contoh_exp_matrix():
                 </div>
         '''
 
-        return render_template_string(A_a+template_view+Z_z, var1 = var1_in, var2 = var2_in, c_save = c)
+    if request.method == 'POST': # dioperasikan dihalaman sendiri tanpa send ke route, misal /contoh_exp_matrix
+
+        import numpy as np
+
+        var1_in = request.form['var1']
+        var2_in = request.form['var2']
+        c = 2*float(var1_in)
+
+        # matriks A
+        A = np.array ([
+            [7, 4],
+            [-2, 1]
+        ])
+
+        # matriks D
+        D = np.array ([
+            [3, 0],
+            [0, 5]
+        ])
+
+        # matriks P
+        P = np.array ([
+            [-1, -2],
+            [1, 1]
+        ])
+
+        # matriks invers P
+        inv_P = np.linalg.inv(P)
+
+        # A = np.linalg.inv(np.transpose(X).dot(X)).dot(np.transpose(X)).dot(Y)
+        A_hitung = P.dot(D).dot(inv_P)
+
+        # matriks exp_D
+        exp_D = np.array ([
+            [np.exp(3), 0],
+            [0, np.exp(5)]
+        ])
+
+        # hitung exp_A
+        exp_A = P.dot(exp_D).dot(inv_P)
+
+        # matriks ln_D
+        ln_D = np.array ([
+            [np.log(3), 0],
+            [0, np.log(5)]
+        ])
+
+        ln_D_type_1 = np.array ([
+            [np.exp(0.5*np.log(3)), 0],
+            [0, np.exp(0.5*np.log(5))]
+        ])
+
+
+        sqrt_D = np.array ([
+            [np.sqrt(3), 0],
+            [0, np.sqrt(5)]
+        ])
+
+        # hitung ln A
+        ln_A = P.dot(ln_D).dot(inv_P)
+
+        # hitung sqrt cara 1
+        sqrt_A = P.dot(ln_D_type_1).dot(inv_P)
+
+        # hitung sqrt A cara 2
+        sqrt_A_type_2 = P.dot(sqrt_D).dot(inv_P)
+
+        # untuk hitung inv A dengan exp
+        ln_D_utk_inv= np.array ([
+            [np.exp(-1*np.log(3)), 0],
+            [0, np.exp(-1*np.log(5))]
+        ])
+
+        # hitung hasil invers Matriks A atau inv(A) dengan library
+        inv_A_by_lib = np.linalg.inv(A)
+
+        # hitung Hasil invers Matriks A atau inv(A) dengan kaidah Exp(-1*ln(A))
+        inv_A_by_exp = P.dot(ln_D_utk_inv).dot(inv_P)
+
+
+        return render_template_string(A_a+template_view+Z_z, var1 = var1_in, var2 = var2_in, d_in = list(D), p_in = list(P), inv_p_in = list(inv_P),  exp_a_in = list(exp_A), ln_a_in = list(ln_A), sqrt_a_in = list(sqrt_A), sqrt_a_type_2_in = list(sqrt_A_type_2), inv_a_by_lib_in = list(inv_A_by_lib), inv_a_by_exp_in = list(inv_A_by_exp), c_save_a = list(A), c_save_a_hitung = A_hitung)
 
     else: # untuk yang 'GET' data awal untuk di send ke /contoh_exp_matrix
-
-        template_view = '''
-            <script type="text/javascript" src="{{ url_for('static', filename = 'js/jquery.min.js') }}"></script>
-            <div class="row">
-                    <div class="col-md-6">
-                        <div class="white-box">
-                            <h3 class="box-title m-b-0">Penghitungan Exponential Matriks: </h3>
-                            <p class="text-muted m-b-30 font-13"> detail nilai elemen matriks Anda </p>
-                            <form action="/contoh_exp_matrix" method="post" class="form-horizontal">
-                                <div class="form-group">
-                                    <label for="exampleInputuname" class="col-sm-3 control-label">Ukuran Baris*</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <input type="text" name="var1" {% if var1 is defined and var1 %} value="{{var1}}" {% else %} value="" {% endif %} class="form-control" id="exampleInputuname" placeholder="3" required="required">
-                                            <div class="input-group-addon"><i class="ti-user"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputuname" class="col-sm-3 control-label">Ukuran Kolom*</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <input type="text" name="var2" {% if var2 is defined and var2 %} value="{{var2}}" {% else %} value="" {% endif %} class="form-control" id="exampleInputuname" placeholder="3" required="required">
-                                            <div class="input-group-addon"><i class="ti-user"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <p class="text-muted">Matrik A:</p>
-                                    <div class="table-responsive">
-                                        <table class="table color-bordered-table info-bordered-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Kolom 1</th>
-                                                    <th>Kolom 2</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Baris 1</td>
-                                                    <td>7</td>
-                                                    <td>4</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Baris 2</td>
-                                                    <td>-2</td>
-                                                    <td>1</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <p class="text-muted">Matrik D:</p>
-                                    <div class="table-responsive">
-                                        <table class="table color-bordered-table info-bordered-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Kolom 1</th>
-                                                    <th>Kolom 2</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Baris 1</td>
-                                                    <td>7</td>
-                                                    <td>4</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Baris 2</td>
-                                                    <td>-2</td>
-                                                    <td>1</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <p class="text-muted">Matrik P:</p>
-                                    <div class="table-responsive">
-                                        <table class="table color-bordered-table info-bordered-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Kolom 1</th>
-                                                    <th>Kolom 2</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Baris 1</td>
-                                                    <td>7</td>
-                                                    <td>4</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Baris 2</td>
-                                                    <td>-2</td>
-                                                    <td>1</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <p class="text-muted">Matrik P invers:</p>
-                                    <div class="table-responsive">
-                                        <table class="table color-bordered-table info-bordered-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Kolom 1</th>
-                                                    <th>Kolom 2</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Baris 1</td>
-                                                    <td>7</td>
-                                                    <td>4</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Baris 2</td>
-                                                    <td>-2</td>
-                                                    <td>1</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                                <div class="form-group m-b-0">
-                                    <div class="col-sm-offset-3 col-sm-9 text-right">
-                                        <button type="submit" class="btn btn-info waves-effect waves-light m-t-10">Hitung Hasil</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="white-box row">
-                            <h3 class="box-title m-b-0">Hasil Exponential Matriksnya exp(A) adalah </h3>
-                            {% if c_save is defined and c_save %}
-                            <p class="text-muted m-b-30 font-13"> Nilai Skor = {{c_save}} </p>
-                            {% endif %}
-                            <div class="mt-8">
-                                {% if var1 is defined and var1 %}
-                                <p>Ukuran Baris Matriks: {{var1}} tahun</p>
-                                <p>Ukuran Kolom Matriks: {{var2}}</p>
-                                {% endif %}
-                            </div>
-
-                            <div class="table-responsive">
-                                <table class="table color-bordered-table info-bordered-table">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Kolom 1</th>
-                                            <th>Kolom 2</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Baris 1</td>
-                                            <td>7</td>
-                                            <td>4</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Baris 2</td>
-                                            <td>-2</td>
-                                            <td>1</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                    <div class="white-box mt-8 row">
-                    <div class="justify-around bg-white rounded-lg">
-                            <img class="col-md-3 col-xs-12" src="{{ url_for('static', filename = 'img/filkom.png') }}" alt="logo-filkom">
-                            <img class="col-md-3 col-xs-12" src="{{ url_for('static', filename = 'img/conan.jpg') }}" alt="kartun-conan">
-                    </div>
-                     </div>
-                    </div>
-                </div>
-        '''
-
         return render_template_string(A_a+template_view+Z_z)
 
 @app.route('/pbb/<m>/<n>')
