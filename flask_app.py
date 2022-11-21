@@ -140,6 +140,7 @@ def contoh_exp_matrix():
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <p class="text-muted">Matrik A:</p>
                                     <div class="table-responsive">
                                         <table class="table color-bordered-table info-bordered-table">
                                             <thead>
@@ -147,26 +148,98 @@ def contoh_exp_matrix():
                                                     <th>#</th>
                                                     <th>Kolom 1</th>
                                                     <th>Kolom 2</th>
-                                                    <th>Kolom 3</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
                                                     <td>Baris 1</td>
-                                                    <td>2</td>
+                                                    <td>7</td>
                                                     <td>4</td>
-                                                    <td>8</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Baris 2</td>
-                                                    <td>10</td>
-                                                    <td>2</td>
-                                                    <td>5</td>
+                                                    <td>-2</td>
+                                                    <td>1</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <p class="text-muted">Matrik D:</p>
+                                    <div class="table-responsive">
+                                        <table class="table color-bordered-table info-bordered-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Kolom 1</th>
+                                                    <th>Kolom 2</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Baris 1</td>
+                                                    <td>7</td>
+                                                    <td>4</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Baris 3</td>
-                                                    <td>9</td>
-                                                    <td>0</td>
+                                                    <td>Baris 2</td>
+                                                    <td>-2</td>
+                                                    <td>1</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <p class="text-muted">Matrik P:</p>
+                                    <div class="table-responsive">
+                                        <table class="table color-bordered-table info-bordered-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Kolom 1</th>
+                                                    <th>Kolom 2</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Baris 1</td>
+                                                    <td>7</td>
+                                                    <td>4</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Baris 2</td>
+                                                    <td>-2</td>
+                                                    <td>1</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <p class="text-muted">Matrik P invers:</p>
+                                    <div class="table-responsive">
+                                        <table class="table color-bordered-table info-bordered-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Kolom 1</th>
+                                                    <th>Kolom 2</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Baris 1</td>
+                                                    <td>7</td>
+                                                    <td>4</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Baris 2</td>
+                                                    <td>-2</td>
                                                     <td>1</td>
                                                 </tr>
                                             </tbody>
@@ -184,7 +257,7 @@ def contoh_exp_matrix():
                     </div>
                     <div class="col-md-6">
                         <div class="white-box row">
-                            <h3 class="box-title m-b-0">Hasil Exponential Matriksnya adalah </h3>
+                            <h3 class="box-title m-b-0">Hasil Exponential Matriksnya exp(A) adalah</h3>
                             {% if c_save is defined and c_save %}
                             <p class="text-muted m-b-30 font-13"> Nilai Skor = {{c_save}} </p>
                             {% endif %}
@@ -193,6 +266,30 @@ def contoh_exp_matrix():
                                 <p>Ukuran Baris Matriks: {{var1}} tahun</p>
                                 <p>Ukuran Kolom Matriks: {{var2}}</p>
                                 {% endif %}
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table color-bordered-table info-bordered-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Kolom 1</th>
+                                            <th>Kolom 2</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Baris 1</td>
+                                            <td>7</td>
+                                            <td>4</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Baris 2</td>
+                                            <td>-2</td>
+                                            <td>1</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -238,6 +335,7 @@ def contoh_exp_matrix():
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <p class="text-muted">Matrik A:</p>
                                     <div class="table-responsive">
                                         <table class="table color-bordered-table info-bordered-table">
                                             <thead>
@@ -245,26 +343,98 @@ def contoh_exp_matrix():
                                                     <th>#</th>
                                                     <th>Kolom 1</th>
                                                     <th>Kolom 2</th>
-                                                    <th>Kolom 3</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
                                                     <td>Baris 1</td>
-                                                    <td>2</td>
+                                                    <td>7</td>
                                                     <td>4</td>
-                                                    <td>8</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Baris 2</td>
-                                                    <td>10</td>
-                                                    <td>2</td>
-                                                    <td>5</td>
+                                                    <td>-2</td>
+                                                    <td>1</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <p class="text-muted">Matrik D:</p>
+                                    <div class="table-responsive">
+                                        <table class="table color-bordered-table info-bordered-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Kolom 1</th>
+                                                    <th>Kolom 2</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Baris 1</td>
+                                                    <td>7</td>
+                                                    <td>4</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Baris 3</td>
-                                                    <td>9</td>
-                                                    <td>0</td>
+                                                    <td>Baris 2</td>
+                                                    <td>-2</td>
+                                                    <td>1</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <p class="text-muted">Matrik P:</p>
+                                    <div class="table-responsive">
+                                        <table class="table color-bordered-table info-bordered-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Kolom 1</th>
+                                                    <th>Kolom 2</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Baris 1</td>
+                                                    <td>7</td>
+                                                    <td>4</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Baris 2</td>
+                                                    <td>-2</td>
+                                                    <td>1</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <p class="text-muted">Matrik P invers:</p>
+                                    <div class="table-responsive">
+                                        <table class="table color-bordered-table info-bordered-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Kolom 1</th>
+                                                    <th>Kolom 2</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Baris 1</td>
+                                                    <td>7</td>
+                                                    <td>4</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Baris 2</td>
+                                                    <td>-2</td>
                                                     <td>1</td>
                                                 </tr>
                                             </tbody>
@@ -282,7 +452,7 @@ def contoh_exp_matrix():
                     </div>
                     <div class="col-md-6">
                         <div class="white-box row">
-                            <h3 class="box-title m-b-0">Hasil Exponential Matriksnya adalah </h3>
+                            <h3 class="box-title m-b-0">Hasil Exponential Matriksnya exp(A) adalah </h3>
                             {% if c_save is defined and c_save %}
                             <p class="text-muted m-b-30 font-13"> Nilai Skor = {{c_save}} </p>
                             {% endif %}
@@ -291,6 +461,30 @@ def contoh_exp_matrix():
                                 <p>Ukuran Baris Matriks: {{var1}} tahun</p>
                                 <p>Ukuran Kolom Matriks: {{var2}}</p>
                                 {% endif %}
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table color-bordered-table info-bordered-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Kolom 1</th>
+                                            <th>Kolom 2</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Baris 1</td>
+                                            <td>7</td>
+                                            <td>4</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Baris 2</td>
+                                            <td>-2</td>
+                                            <td>1</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
