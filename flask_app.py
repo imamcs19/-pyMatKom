@@ -104,6 +104,234 @@ Z_z = FrameWeb_bawah
 def hello_matkom():
     return 'Hello Students | Koding Matematika Komputasi (MatKom) pada Teknologi Cloud :D'
 
+@app.route('/contoh_exp_matrix', methods=['POST', 'GET'])
+def contoh_exp_matrix():
+
+    if request.method == 'POST': # dioperasikan dihalaman sendiri tanpa send ke route, misal /contoh_exp_matrix
+
+        var1_in = float(request.form['var1'])
+        var2_in = request.form['var2']
+        c = 2*var1_in
+
+        template_view = '''
+            <script type="text/javascript" src="{{ url_for('static', filename = 'js/jquery.min.js') }}"></script>
+            <div class="row">
+                    <div class="col-md-6">
+                        <div class="white-box">
+                            <h3 class="box-title m-b-0">Penghitungan Exponential Matriks: </h3>
+                            <p class="text-muted m-b-30 font-13"> detail nilai elemen matriks Anda </p>
+                            <form action="/contoh_exp_matrix" method="post" class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="exampleInputuname" class="col-sm-3 control-label">Ukuran Baris*</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <input type="text" name="var1" {% if var1 is defined and var1 %} value="{{var1}}" {% else %} value="" {% endif %} class="form-control" id="exampleInputuname" placeholder="3" required="required">
+                                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputuname" class="col-sm-3 control-label">Ukuran Kolom*</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <input type="text" name="var2" {% if var2 is defined and var2 %} value="{{var2}}" {% else %} value="" {% endif %} class="form-control" id="exampleInputuname" placeholder="3" required="required">
+                                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="table-responsive">
+                                        <table class="table color-bordered-table info-bordered-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Kolom 1</th>
+                                                    <th>Kolom 2</th>
+                                                    <th>Kolom 3</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Baris 1</td>
+                                                    <td>2</td>
+                                                    <td>4</td>
+                                                    <td>8</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Baris 2</td>
+                                                    <td>10</td>
+                                                    <td>2</td>
+                                                    <td>5</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Baris 3</td>
+                                                    <td>9</td>
+                                                    <td>0</td>
+                                                    <td>1</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="form-group m-b-0">
+                                    <div class="col-sm-offset-3 col-sm-9 text-right">
+                                        <button type="submit" class="btn btn-info waves-effect waves-light m-t-10">Hitung Hasil</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="white-box row">
+                            <h3 class="box-title m-b-0">Hasil Exponential Matriksnya adalah </h3>
+                            {% if c_save is defined and c_save %}
+                            <p class="text-muted m-b-30 font-13"> Nilai Skor = {{c_save}} </p>
+                            {% endif %}
+                            <div class="mt-8">
+                                {% if var1 is defined and var1 %}
+                                <p>Ukuran Baris Matriks: {{var1}} tahun</p>
+                                <p>Ukuran Kolom Matriks: {{var2}}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                    <div class="white-box mt-8 row">
+                    <div class="justify-around bg-white rounded-lg">
+                            <img class="col-md-3 col-xs-12" src="{{ url_for('static', filename = 'img/filkom.png') }}" alt="logo-filkom">
+                            <img class="col-md-3 col-xs-12" src="{{ url_for('static', filename = 'img/conan.jpg') }}" alt="kartun-conan">
+                    </div>
+                     </div>
+                    </div>
+                </div>
+        '''
+
+        return render_template_string(A_a+template_view+Z_z, var1 = var1_in, var2 = var2_in, c_save = c)
+
+    else: # untuk yang 'GET' data awal untuk di send ke /contoh_exp_matrix
+
+        template_view = '''
+            <script type="text/javascript" src="{{ url_for('static', filename = 'js/jquery.min.js') }}"></script>
+            <div class="row">
+                    <div class="col-md-6">
+                        <div class="white-box">
+                            <h3 class="box-title m-b-0">Penghitungan Exponential Matriks: </h3>
+                            <p class="text-muted m-b-30 font-13"> detail nilai elemen matriks Anda </p>
+                            <form action="/contoh_exp_matrix" method="post" class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="exampleInputuname" class="col-sm-3 control-label">Ukuran Baris*</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <input type="text" name="var1" {% if var1 is defined and var1 %} value="{{var1}}" {% else %} value="" {% endif %} class="form-control" id="exampleInputuname" placeholder="3" required="required">
+                                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputuname" class="col-sm-3 control-label">Ukuran Kolom*</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <input type="text" name="var2" {% if var2 is defined and var2 %} value="{{var2}}" {% else %} value="" {% endif %} class="form-control" id="exampleInputuname" placeholder="3" required="required">
+                                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="table-responsive">
+                                        <table class="table color-bordered-table info-bordered-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Kolom 1</th>
+                                                    <th>Kolom 2</th>
+                                                    <th>Kolom 3</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Baris 1</td>
+                                                    <td>2</td>
+                                                    <td>4</td>
+                                                    <td>8</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Baris 2</td>
+                                                    <td>10</td>
+                                                    <td>2</td>
+                                                    <td>5</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Baris 3</td>
+                                                    <td>9</td>
+                                                    <td>0</td>
+                                                    <td>1</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="form-group m-b-0">
+                                    <div class="col-sm-offset-3 col-sm-9 text-right">
+                                        <button type="submit" class="btn btn-info waves-effect waves-light m-t-10">Hitung Hasil</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="white-box row">
+                            <h3 class="box-title m-b-0">Hasil Exponential Matriksnya adalah </h3>
+                            {% if c_save is defined and c_save %}
+                            <p class="text-muted m-b-30 font-13"> Nilai Skor = {{c_save}} </p>
+                            {% endif %}
+                            <div class="mt-8">
+                                {% if var1 is defined and var1 %}
+                                <p>Ukuran Baris Matriks: {{var1}} tahun</p>
+                                <p>Ukuran Kolom Matriks: {{var2}}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                    <div class="white-box mt-8 row">
+                    <div class="justify-around bg-white rounded-lg">
+                            <img class="col-md-3 col-xs-12" src="{{ url_for('static', filename = 'img/filkom.png') }}" alt="logo-filkom">
+                            <img class="col-md-3 col-xs-12" src="{{ url_for('static', filename = 'img/conan.jpg') }}" alt="kartun-conan">
+                    </div>
+                     </div>
+                    </div>
+                </div>
+        '''
+
+        return render_template_string(A_a+template_view+Z_z)
+
+@app.route('/pbb/<m>/<n>')
+def pbb(m,n):
+
+    m_awal = int(m)
+    n_awal = int(n)
+
+    m = m_awal
+    n = n_awal
+    r_awal = m % n
+
+    # Jika m = n*q + r,
+    # maka PBB(m,n) = PBB(n,r)
+
+    while n !=0:
+        r = m % n
+        m = n
+        n = r
+
+    # return "pbb siap dikomputasi"
+    # return render_template_string(A_a+"pbb siap dikomputasi"+Z_z)
+    # return render_template_string(A_a+"PBB("+str(m_awal)+","+str(n_awal)+") = "+str(m)+Z_z)
+    return render_template_string(A_a+"PBB("+str(m_awal)+","+str(n_awal)+") = "+
+    "PBB("+str(n_awal)+","+str(r_awal)+") = "
+    +str(m)+Z_z)
+
 @app.route('/prim/<dec>')
 def prim(dec):
     n = int(dec)
