@@ -100,9 +100,9 @@ FrameWeb_bawah = """
 """
 Z_z = FrameWeb_bawah
 
-@app.route('/')
-def hello_matkom():
-    return 'Hello Students | Koding Matematika Komputasi (MatKom) pada Teknologi Cloud :D'
+# @app.route('/')
+# def hello_matkom():
+#     return 'Hello Students | Koding Matematika Komputasi (MatKom) pada Teknologi Cloud :D'
 
 @app.route('/contoh_exp_matrix', methods=['POST', 'GET'])
 def contoh_exp_matrix():
@@ -416,8 +416,12 @@ def contoh_exp_matrix():
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                    <div class="white-box mt-8 row">
+
+                </div>
+
+                <div class = "row">
+                    <div class="container-fluid">
+                    <div class="white-box row">
                     <div class="justify-around bg-white rounded-lg">
                             <img class="col-md-3 col-xs-12" src="{{ url_for('static', filename = 'img/filkom.png') }}" alt="logo-filkom">
                             <img class="col-md-3 col-xs-12" src="{{ url_for('static', filename = 'img/conan.jpg') }}" alt="kartun-conan">
