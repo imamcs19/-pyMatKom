@@ -2056,7 +2056,10 @@ def page_not_found(error):
 
 @app.errorhandler(500)
 def internal_server_error(error):
-    return render_template("500.html")
+    userhome = os.path.expanduser("~").split("/")[-1]
+    link_error_debug = "https://www.pythonanywhere.com/user/"+userhome+"/files/var/log/"+userhome+".pythonanywhere.com.error.log"
+
+    return render_template("500.html", link_error_debug = link_error_debug)
 
 @app.route('/iot', methods=["GET", "POST"])
 def iot():
