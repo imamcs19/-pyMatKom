@@ -243,7 +243,7 @@ def contoh_exp_matrix():
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="white-box row">
+                        <div class="white-box">
                             <h3 class="box-title m-b-0">Hasil Exponential Matriksnya exp(A) adalah</h3>
                             {% if c_save_a is defined and c_save_a %}
                             <p class="text-muted m-b-30 font-13"> A = P*D*inv(P) = {{c_save_a_hitung}} </p>
@@ -278,7 +278,7 @@ def contoh_exp_matrix():
                                 </table>
                             </div>
                         </div>
-                        <div class="white-box row">
+                        <div class="white-box">
                             <h3 class="box-title m-b-0">Hasil ln Matriks A atau ln(A) adalah</h3>
 
                             <div class="table-responsive">
@@ -305,7 +305,7 @@ def contoh_exp_matrix():
                                 </table>
                             </div>
                         </div>
-                        <div class="white-box row">
+                        <div class="white-box">
                             <h3 class="box-title m-b-0">Hasil akar Matriks A atau sqrt(A) Type 1 atau Cara 1 adalah</h3>
 
                             <div class="table-responsive">
@@ -334,7 +334,7 @@ def contoh_exp_matrix():
                         </div>
 
 
-                        <div class="white-box row">
+                        <div class="white-box">
                             <h3 class="box-title m-b-0">Hasil akar Matriks A atau sqrt(A) Type 2 atau Cara 2 adalah</h3>
 
                             <div class="table-responsive">
@@ -361,7 +361,7 @@ def contoh_exp_matrix():
                                 </table>
                             </div>
                         </div>
-                        <div class="white-box row">
+                        <div class="white-box">
                             <h3 class="box-title m-b-0">Hasil invers Matriks A atau inv(A) dengan Library dari numpy adalah</h3>
 
                             <div class="table-responsive">
@@ -388,7 +388,7 @@ def contoh_exp_matrix():
                                 </table>
                             </div>
                         </div>
-                        <div class="white-box row">
+                        <div class="white-box">
                             <h3 class="box-title m-b-0">Hasil invers Matriks A atau inv(A) dengan kaidah Exp(-1*ln(A)) adalah</h3>
 
                             <div class="table-responsive">
@@ -419,15 +419,38 @@ def contoh_exp_matrix():
 
                 </div>
 
-                <div class = "row">
-                    <div class="container-fluid">
-                    <div class="white-box row">
-                    <div class="justify-around bg-white rounded-lg">
-                            <img class="col-md-3 col-xs-12" src="{{ url_for('static', filename = 'img/filkom.png') }}" alt="logo-filkom">
-                            <img class="col-md-3 col-xs-12" src="{{ url_for('static', filename = 'img/conan.jpg') }}" alt="kartun-conan">
+                <!-- <div class="row white-box gx-0"> -->
+                <!--     <div class="col-md-6"> -->
+                <!--                 <img style="max-width:40%; margin: 0 auto;" class="img-responsive" src="{{ url_for('static', filename = 'img/filkom.png') }}" alt="logo-filkom">-->
+                <!--     </div>-->
+                <!--     <div class="col-md-6">-->
+                <!--                 <img style="max-width:10%; margin: 0 auto;" class="img-responsive" src="{{ url_for('static', filename = 'img/conan.jpg') }}" alt="kartun-conan">-->
+                <!--     </div>-->
+                <!-- </div>-->
+
+                <!-- <div class="row"> -->
+                <!--     <div class="col-md-6"> -->
+                <!--    <div class="white-box"> -->
+                <!--                <img style="max-width:45%; margin: 0 auto;" class="img-responsive" src="{{ url_for('static', filename = 'img/filkom.png') }}" alt="logo-filkom">-->
+                <!--    </div> -->
+                <!--    </div> -->
+                <!--    <div class="col-md-6">-->
+                <!--    <div class="white-box"> -->
+                <!--                <img style="max-width:10%; margin: 0 auto;" class="img-responsive" src="{{ url_for('static', filename = 'img/conan.png') }}" alt="kartun-conan">-->
+                <!--    </div>-->
+                <!-- </div>-->
+
+                <!-- </div> -->
+
+                <div class="row">
+                    <div class="col-md-12">
+                    <div class="white-box">
+                                <img style="max-width:10%; margin: 0 auto;" class="img-responsive" src="{{ url_for('static', filename = 'img/filkom.png') }}" alt="logo-filkom">
+                                <br>
+                                <img style="max-width:10%; margin: 0 auto;" class="img-responsive" src="{{ url_for('static', filename = 'img/conan.png') }}" alt="kartun-conan">
                     </div>
-                     </div>
                     </div>
+
                 </div>
         '''
 
@@ -2050,6 +2073,14 @@ def connect_db():
 
     return sqlite3.connect(db_path)
 
+def connect_db_to_vacuum():
+    import os.path
+
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    db_path = os.path.join(BASE_DIR, "data.db")
+
+    return sqlite3.connect(db_path,isolation_level=None)
+
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("404.html")
@@ -2262,6 +2293,404 @@ def scanner():
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
         else:
             break
+
+# @user.route('/<userId>/')  # NEED '/' AFTER LINK
+# @user.route('/<userId>/<username>')
+# def show(userId, username=None):
+#     pass
+
+# @user.route('/<user_id>', defaults={'username': default_value})
+# @user.route('/<user_id>/<username>')
+# def show(user_id, username):
+#   #
+#   pass
+
+@app.route('/myadmin/', methods = ['GET','POST'])
+@app.route('/myadmin/<none_atau_lainnya>', methods = ['GET','POST'])
+# @app.route('/myadmin/<none_atau_lainnya>', methods = ['GET','POST','DELETE', 'PATCH'], strict_slashes=False)
+def myadmin(none_atau_lainnya=None):
+    if(none_atau_lainnya is not None):
+
+        list_none_atau_lainnya = none_atau_lainnya.split("-")
+        str_none_atau_lainnya = ' '.join(list_none_atau_lainnya)
+
+        # get jenis query edit atau del atau run
+        get_jenis_query = list_none_atau_lainnya[0]
+        get_nama_tabel = list_none_atau_lainnya[-1]
+
+        return 'Hello ' + str_none_atau_lainnya + ' Tipe request = ' + request.method + ' ' + list_none_atau_lainnya[0]+ ' ' + list_none_atau_lainnya[-1]
+
+    else:
+        # Aksi => Buat, Hapus Tabel data_tabel_myadmin
+        aksi = 'c'
+
+        if aksi == 'c':
+            conn = connect_db()
+            db = conn.cursor()
+
+            str_info = 'tabel berhasil dibuat :D'
+            # create tabel
+            db.execute("""
+            CREATE TABLE IF NOT EXISTS data_tabel_myadmin
+            (id INTEGER PRIMARY KEY AUTOINCREMENT, nama_tabel TEXT, date_pembuatan DATETIME,
+            teks_sintaks TEXT)
+            """)
+
+            conn.commit()
+            # db.close()
+            # conn.close()
+
+
+
+        elif aksi== 'd':
+            conn = connect_db()
+            db = conn.cursor()
+
+            str_info = 'tabel berhasil dihapus :D'
+            # hapus tabel
+            db.execute("""
+            DROP TABLE IF EXISTS data_tabel_myadmin
+            """)
+
+            conn.commit()
+            # db.close()
+            # conn.close()
+
+            # untuk membersihkan semacam cache setelah proses hapus tabel
+            # conn = connect_db_to_vacuum()
+            # db = conn.cursor()
+
+            db.execute("""
+            vacuum
+            """)
+
+            conn.commit()
+            # db.close()
+            # conn.close()
+
+        # return str_info
+
+        template_view = '''
+                <div class="row">
+                    <div class="col-12">
+                        <div class="white-box">
+                                <div class="card-body">
+                                    <form action="/myadmin" method="post">
+                                    <h4 class="card-title">Masukkan tabel yang akan dibuat</h4>
+                                    <h6 class="card-subtitle"></h6>
+                                    <button type="button" class="btn btn-info btn-rounded m-t-10 float-right" data-toggle="modal" data-target="#add-contact">Buat Tabel</button>
+                                    <!-- Add Contact Popup Model -->
+                                    <!--<div id="add-contact" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;"> -->
+                                    <div id="add-contact" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h4 class="modal-title" id="myModalLabel">Buat Tabel baru</h4> </div>
+                                                <div class="modal-body">
+                                                    <from class="form-horizontal form-material">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12 m-b-20">
+                                                                <input type="text" name="nama_tabel" class="form-control" placeholder="Nama tabel" required="required"> </div>
+                                                            <div class="col-md-12 m-b-20">
+                                                                <textarea class="form-control" name="teks_sintaks" rows="4" placeholder="Teks sintaks"></textarea> </div>
+                                                        </div>
+                                                    </from>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-info waves-effect">Simpan</button>
+                                                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button>
+                                                    <!-- <button type="reset" class="btn btn-default waves-effect" data-dismiss="modal">Batal</button> -->
+                                                </div>
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <!-- <table id="footable-addrow" class="table table-bordered m-t-30 table-hover contact-list footable footable-5 footable-paging footable-paging-center breakpoint-lg" data-paging="true" data-paging-size="7" style=""> -->
+                                        <!-- <table id="footable-addrow" class="table footable footable-6 footable-editing footable-editing-right footable-editing-no-view footable-filtering footable-filtering-right footable-paging footable-paging-center breakpoint-lg" data-paging="true" data-filtering="true" data-sorting="true" data-editing="true" data-state="true" style=""> -->
+                                        <!-- <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%"> -->
+                                        <!-- <table id="footable-addrow" class="table" data-paging="true" data-filtering="true" data-sorting="true" data-editing="true" data-state="true">-->
+
+                                        <!-- <table id="example23" class="display nowrap table table-hover table-striped table-bordered" data-paging="true" data-filtering="true" data-sorting="true" data-editing="true" data-state="true">-->
+                                        <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                        <!-- <table id="myTable" class="table table-striped"> -->
+                                            <thead>
+                                                <tr class="footable-header">
+                                                    <th style="display: table-cell;" class="footable-first-visible">No</th>
+                                                    <th style="display: table-cell;">Nama</th>
+                                                    <th style="display: table-cell;">Tanggal Pembuatan</th>
+                                                    <th style="display: table-cell;" class="th-inner">Teks Sintaks</th>
+                                                    <th style="display: table-cell;" class="footable-last-visible"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in var_tabel_myadmin %}
+                                                <tr class={{ loop.cycle('odd', 'even') }}>
+                                                    <td style="display: table-cell;" class="footable-first-visible">{{ loop.index }}</td>
+                                                    <td style="display: table-cell;">{{item[1]}}</td>
+                                                    <td style="display: table-cell;">{{item[2]}}</td>
+                                                    <td style="display: table-cell;">
+                                                        {{item[3]}} </td>
+                                                    <td style="display: table-cell;" class="footable-last-visible">
+                                                        <a href="/myadmin/edit-nama_tabel_var-{{item[1]}}">
+                                                        <button type="button" class="btn btn-info btn-outline btn-circle btn-lg m-r-5"><i class="ti-pencil-alt"></i></button></a>
+                                                        <a href="/myadmin/del-nama_tabel_var-{{item[1]}}">
+                                                        <button type="button" class="btn btn-info btn-outline btn-circle btn-lg m-r-5"><i class="ti-trash"></i></button></a>
+                                                        <a href="/myadmin/run-nama_tabel_var-{{item[1]}}">
+                                                        <button type="button" class="btn btn-info btn-outline btn-circle btn-lg m-r-5"><i class="ti-control-play"></i></button></a>
+
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+
+
+
+                    </div>
+                </div>
+
+
+
+                <!--<script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_foo/footable.min.js') }}"></script>-->
+                <!--<script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_foo/custom.min.js') }}"></script>-->
+                <!--<script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_foo/footable-init.js') }}"></script>-->
+                <!--<script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_foo/jQuery.style.switcher.js') }}"></script>-->
+                <!--<script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_foo/jquery.min.js') }}"></script>-->
+                <!--<script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_foo/bootstrap.min.js') }}"></script>-->
+                <!--<script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_foo/jquery.slimscroll.js') }}"></script>-->
+                <!--<script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_foo/moment.js') }}"></script>-->
+                <!--<script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_foo/sidebar-nav.min.js') }}"></script>-->
+                <!--<script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_foo/waves.js') }}"></script>-->
+
+                <!-- There could be multiple reasons for this error. -->
+                    <!-- jQuery DataTables library is missing. -->
+                    <!-- jQuery library is loaded after jQuery DataTables. -->
+                    <!-- Multiple versions of jQuery library is loaded. -->
+
+
+                <!-- ./wrapper -->
+                <!-- REQUIRED SCRIPTS -->
+                <!-- jQuery -->
+                <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_suhu/jquery.min.js.download') }}"></script>
+                <!-- Bootstrap 4 -->
+                <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_suhu/bootstrap.bundle.min.js.download') }}"></script> -->
+                <!-- AdminLTE App -->
+                <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_suhu/adminlte.min.js.download') }}"></script>
+                <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_suhu/sweetalert2-9.10.12.min.js.download') }}"></script>
+                <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_suhu/site.js.download') }}"></script>
+
+
+                <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_suhu/jquery.validate.min.js.download') }}"></script>
+                <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_suhu/jquery.validate.unobtrusive.min.js.download') }}"></script>
+                <!-- <script> -->
+                <!--$("#main_form").validate(); -->
+                <!-- </script> -->
+
+                <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/css_tabel_suhu/dataTables.bootstrap4.min.css') }}" />
+                <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_suhu/jquery.dataTables.min.js.download') }}"></script>
+                <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_suhu/dataTables.bootstrap4.min.js.download') }}"></script>
+
+
+                <!-- /#wrapper -->
+
+                <!-- Bootstrap Core JavaScript -->
+                <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_data/bootstrap.min.js') }}"></script> -->
+                <!-- Menu Plugin JavaScript -->
+                <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_data/sidebar-nav.min.js') }}"></script> -->
+                <!--slimscroll JavaScript -->
+                <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_data/jquery.slimscroll.js') }}"></script> -->
+                <!--Wave Effects -->
+                <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_data/waves.js') }}"></script> -->
+                <!-- Custom Theme JavaScript -->
+                <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_data/custom.min.js') }}"></script> -->
+                <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_data/datatables.min.js') }}"></script> -->
+                <!-- start - This is for export functionality only -->
+                <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_data/dataTables.buttons.min.js') }}"></script> -->
+                <!-- jQuery -->
+                <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_data/jquery.min.js') }}"></script> -->
+                <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_data/buttons.flash.min.js') }}"></script> -->
+                <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_data/jszip.min.js') }}"></script> -->
+                <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_data/pdfmake.min.js') }}"></script> -->
+                <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_data/vfs_fonts.js') }}"></script> -->
+                <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_data/buttons.html5.min.js') }}"></script> -->
+                <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/mylib_tabel_data/buttons.print.min.js') }}"></script> -->
+                <!-- end - This is for export functionality only -->
+
+
+
+
+                <script>
+                    /*
+                    $(document).ready(function() {
+                        $('#myTable').DataTable();
+                        $(document).ready(function() {
+                            var table = $('#example').DataTable({
+                                "columnDefs": [{
+                                    "visible": false,
+                                    "targets": 2
+                                }],
+                                "order": [
+                                    [2, 'asc']
+                                ],
+                                "displayLength": 25,
+                                "drawCallback": function(settings) {
+                                    var api = this.api();
+                                    var rows = api.rows({
+                                        page: 'current'
+                                    }).nodes();
+                                    var last = null;
+                                    api.column(2, {
+                                        page: 'current'
+                                    }).data().each(function(group, i) {
+                                        if (last !== group) {
+                                            $(rows).eq(i).before('<tr class="group"><td colspan="5">' + group + '</td></tr>');
+                                            last = group;
+                                        }
+                                    });
+                                }
+                            });
+                            // Order by the grouping
+                            $('#example tbody').on('click', 'tr.group', function() {
+                                var currentOrder = table.order()[0];
+                                if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
+                                    table.order([2, 'desc']).draw();
+                                } else {
+                                    table.order([2, 'asc']).draw();
+                                }
+                            });
+                        });
+                    }); */
+                    $('#example23').DataTable({
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'copy', 'csv', 'excel', 'pdf', 'print'
+                        ]
+                    });
+                    $('.buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel').addClass('btn btn-primary m-r-10');
+                </script>
+            '''
+
+
+
+        if request.method == 'POST': # dioperasikan dihalaman sendiri tanpa send ke route lain, misal /myadmin
+
+            var1_in = request.form['nama_tabel']
+            var2_in = request.form['teks_sintaks']
+
+            # untuk mengkondisikan nama tabel tidak boleh ada spasi
+            var1_in = var1_in.replace(" ","_")
+
+            # Aksi => Buat, Hapus Tabel dari Tabel data_tabel_myadmin
+            aksi_sub = 'c'
+
+            if aksi_sub == 'c':
+                # conn = connect_db()
+                # db = conn.cursor()
+
+                str_info = 'tabel berhasil dibuat :D'
+                # create tabel
+                db.execute("""
+                CREATE TABLE IF NOT EXISTS """ + var1_in + """
+                (kolom2 TEXT, kolom3 DATETIME, kolom4 TEXT)
+                """)
+
+                conn.commit()
+                # db.close()
+                # conn.close()
+
+                """Mengisi data untuk spesifikasi tabel."""
+                # conn = connect_db()
+                # db = conn.cursor()
+
+                db.execute("SELECT * FROM data_tabel_myadmin WHERE nama_tabel = ?", (var1_in,))
+                entry = db.fetchone()
+
+                if entry is None:
+                    import numpy as np
+                    import pandas as pd
+
+                    from datetime import datetime
+                    import pytz
+                    Date = str(datetime.today().astimezone(pytz.timezone('Asia/Jakarta')).strftime('%d-%m-%Y %H:%M:%S'))
+
+                    db.execute("""INSERT INTO data_tabel_myadmin (nama_tabel, date_pembuatan, teks_sintaks) VALUES (?, ?, ?)""",
+                        (var1_in, Date, var2_in))
+
+                else:
+                    ket_hasil = 'Tidak dilakukan Insert, karena Tabel tidak kosong'
+
+                conn.commit()
+                # db.close()
+                # conn.close()
+
+            elif aksi_sub== 'd':
+                # conn = connect_db()
+                # db = conn.cursor()
+
+                str_info = 'tabel berhasil dihapus :D'
+                # hapus tabel
+                db.execute("""
+                DROP TABLE IF EXISTS """ + var1_in + """
+                """)
+
+                conn.commit()
+                # db.close()
+                # conn.close()
+
+                # untuk membersihkan semacam cache setelah proses hapus tabel
+                # conn = connect_db_to_vacuum()
+                # db = conn.cursor()
+
+                db.execute("""
+                vacuum
+                """)
+
+                conn.commit()
+                # db.close()
+                # conn.close()
+
+            # menampilkan data dari tabel data_tabel_myadmin
+            # conn = connect_db()
+            # db = conn.cursor()
+
+            c = db.execute(""" SELECT * FROM  data_tabel_myadmin """)
+
+            var_tabel_myadmin_in = c.fetchall()
+
+            conn.commit()
+            # db.close()
+            # conn.close()
+
+            db.close()
+            conn.close()
+
+            return render_template_string(A_a+template_view+Z_z, var1 = var1_in, var2 = var2_in, var_tabel_myadmin = var_tabel_myadmin_in)
+
+        else: # untuk yang 'GET' data awal untuk di send ke /myadmin
+
+            # menampilkan data dari tabel data_tabel_myadmin
+            # conn = connect_db()
+            # db = conn.cursor()
+
+            c = db.execute(""" SELECT * FROM  data_tabel_myadmin """)
+
+            var_tabel_myadmin_in = c.fetchall()
+
+            conn.commit()
+            # db.close()
+            # conn.close()
+
+            db.close()
+            conn.close()
+            return render_template_string(A_a+template_view+Z_z, var_tabel_myadmin = var_tabel_myadmin_in)
 
 @app.route('/launchpad_menu')
 def launchpad_menu():
