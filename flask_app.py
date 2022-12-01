@@ -2307,70 +2307,9 @@ def scanner():
 
 @app.route('/myadmin/', methods = ['GET','POST'])
 @app.route('/myadmin/<none_atau_lainnya>', methods = ['GET','POST'])
-# @app.route('/myadmin/<none_atau_lainnya>', methods = ['GET','POST','DELETE', 'PATCH'], strict_slashes=False)
 def myadmin(none_atau_lainnya=None):
-    if(none_atau_lainnya is not None):
 
-        list_none_atau_lainnya = none_atau_lainnya.split("-")
-        str_none_atau_lainnya = ' '.join(list_none_atau_lainnya)
-
-        # get jenis query edit atau del atau run
-        get_jenis_query = list_none_atau_lainnya[0]
-        get_nama_tabel = list_none_atau_lainnya[-1]
-
-        return 'Hello ' + str_none_atau_lainnya + ' Tipe request = ' + request.method + ' ' + list_none_atau_lainnya[0]+ ' ' + list_none_atau_lainnya[-1]
-
-    else:
-        # Aksi => Buat, Hapus Tabel data_tabel_myadmin
-        aksi = 'c'
-
-        if aksi == 'c':
-            conn = connect_db()
-            db = conn.cursor()
-
-            str_info = 'tabel berhasil dibuat :D'
-            # create tabel
-            db.execute("""
-            CREATE TABLE IF NOT EXISTS data_tabel_myadmin
-            (id INTEGER PRIMARY KEY AUTOINCREMENT, nama_tabel TEXT, date_pembuatan DATETIME,
-            teks_sintaks TEXT)
-            """)
-
-            conn.commit()
-            # db.close()
-            # conn.close()
-
-
-
-        elif aksi== 'd':
-            conn = connect_db()
-            db = conn.cursor()
-
-            str_info = 'tabel berhasil dihapus :D'
-            # hapus tabel
-            db.execute("""
-            DROP TABLE IF EXISTS data_tabel_myadmin
-            """)
-
-            conn.commit()
-            # db.close()
-            # conn.close()
-
-            # untuk membersihkan semacam cache setelah proses hapus tabel
-            # conn = connect_db_to_vacuum()
-            # db = conn.cursor()
-
-            db.execute("""
-            vacuum
-            """)
-
-            conn.commit()
-            # db.close()
-            # conn.close()
-
-        # return str_info
-
-        template_view = '''
+    template_view = '''
                 <div class="row">
                     <div class="col-12">
                         <div class="white-box">
@@ -2379,6 +2318,7 @@ def myadmin(none_atau_lainnya=None):
                                     <h4 class="card-title">Masukkan tabel yang akan dibuat</h4>
                                     <h6 class="card-subtitle"></h6>
                                     <button type="button" class="btn btn-info btn-rounded m-t-10 float-right" data-toggle="modal" data-target="#add-contact">Buat Tabel</button>
+
                                     <!-- Add Contact Popup Model -->
                                     <!--<div id="add-contact" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;"> -->
                                     <div id="add-contact" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -2408,6 +2348,8 @@ def myadmin(none_atau_lainnya=None):
                                         <!-- /.modal-dialog -->
                                     </div>
 
+                                    </form>
+
                                     <div class="table-responsive">
                                         <!-- <table id="footable-addrow" class="table table-bordered m-t-30 table-hover contact-list footable footable-5 footable-paging footable-paging-center breakpoint-lg" data-paging="true" data-paging-size="7" style=""> -->
                                         <!-- <table id="footable-addrow" class="table footable footable-6 footable-editing footable-editing-right footable-editing-no-view footable-filtering footable-filtering-right footable-paging footable-paging-center breakpoint-lg" data-paging="true" data-filtering="true" data-sorting="true" data-editing="true" data-state="true" style=""> -->
@@ -2435,20 +2377,79 @@ def myadmin(none_atau_lainnya=None):
                                                     <td style="display: table-cell;">
                                                         {{item[3]}} </td>
                                                     <td style="display: table-cell;" class="footable-last-visible">
-                                                        <a href="/myadmin/edit-nama_tabel_var-{{item[1]}}">
+                                                        <!-- <form action="/myadmin/edit-nama_tabel_var-{{item[1]}}" class="modal-content form-horizontal" id="editor" method="post"> -->
+
+                                                        <a href="" data-toggle="modal" data-target="#editor-modal{{item[1]}}">
                                                         <button type="button" class="btn btn-info btn-outline btn-circle btn-lg m-r-5"><i class="ti-pencil-alt"></i></button></a>
+
+                                                        <!-- <a href="/myadmin/edit-nama_tabel_var-{{item[1]}}"> -->
+                                                        <!-- <button type="button" class="btn btn-info btn-outline btn-circle btn-lg m-r-5"><i class="ti-pencil-alt"></i></button></a> -->
+
                                                         <a href="/myadmin/del-nama_tabel_var-{{item[1]}}">
                                                         <button type="button" class="btn btn-info btn-outline btn-circle btn-lg m-r-5"><i class="ti-trash"></i></button></a>
                                                         <a href="/myadmin/run-nama_tabel_var-{{item[1]}}">
                                                         <button type="button" class="btn btn-info btn-outline btn-circle btn-lg m-r-5"><i class="ti-control-play"></i></button></a>
 
+                                                        <!-- Start Popup Model utk Edit -->
+                                                        <!-- <div class="modal fade" id="editor-modal" tabindex="-1" role="dialog" aria-labelledby="editor-title"> -->
+                                                        <!-- <div id="editor-modal{{item[1]}}" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> -->
+                                                        <div class="modal fade in" id="editor-modal{{item[1]}}" tabindex="-1" role="dialog" aria-labelledby="editor-title">
+                                                            <!--<div class="modal-dialog" role="document"> -->
+                                                            <div class="modal-dialog">
+                                                                <form action="/myadmin/edit-nama_tabel_var-{{item[1]}}" class="modal-content form-horizontal" id="editor" method="post">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                                            <h4 class="modal-title" id="editor-title">Edit row #{{item[0]}}</h4>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <from class="form-horizontal form-material">
+                                                                                <div class="form-group">
+                                                                                    <label for="firstName" class="col-sm-3 control-label">Nama</label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <input type="text" class="form-control" name="nama_tabel_edit_{{item[1]}}" value="{{item[1]}}" placeholder="Nama Tabel" readonly>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <!-- <div class="form-group"> -->
+                                                                                    <!-- <label for="dob" class="col-sm-3 control-label">Tanggal Pembuatan</label> -->
+                                                                                    <!-- <label class="col-sm-3 control-label">Tanggal Pembuatan</label> -->
+                                                                                    <!-- <div class="col-sm-9"> -->
+                                                                                        <!-- <input type="date" class="form-control" name="tgl_buat_tabel_edit" value="{{item[2]}}" placeholder="Tanggal Pembuatan Tabel"> -->
+                                                                                        <!-- <input type="date" data-date="" data-date-format="dd-mm-YYYY HH:MM:SS" class="form-control" name="tgl_buat_tabel_edit" value="{{item[2]}}" placeholder="Tanggal Pembuatan Tabel"> -->
+
+                                                                                    <!-- </div> -->
+                                                                                <!-- </div> -->
+                                                                                <div class="form-group">
+                                                                                    <label for="status" class="col-sm-3 control-label">Sintaks</label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <!--input type="text" class="form-control" id="status" name="status" placeholder="Status Here" required> -->
+                                                                                        <textarea class="form-control" name="teks_sintaks_edit_{{item[1]}}" rows="4" placeholder="Teks sintaks">{{item[3]}}</textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </from>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <!-- <button type="submit" class="btn btn-primary">Save changes</button> -->
+                                                                            <!-- <a href="/myadmin/edit-nama_tabel_var-{{item[1]}}" class="btn btn-info" role="button">Simpan</a>-->
+                                                                            <!-- <button type="submit" class="btn btn-primary">Simpan</button>-->
+                                                                            <button type="submit" class="btn btn-info waves-effect">Simpan</button>
+                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- /.modal-content -->
+                                                                </form>
+                                                            </div>
+                                                            <!-- /.modal-dialog -->
+                                                        </div>
+                                                        <!-- End Popup Model -->
+                                                        <!-- </form> -->
                                                     </td>
                                                 </tr>
                                                 {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>
-                                    </form>
+                                    <!-- </form> -->
                                 </div>
                             </div>
 
@@ -2578,7 +2579,103 @@ def myadmin(none_atau_lainnya=None):
                 </script>
             '''
 
+    if(none_atau_lainnya is not None):
 
+        list_none_atau_lainnya = none_atau_lainnya.split("-")
+        str_none_atau_lainnya = ' '.join(list_none_atau_lainnya)
+
+        # get jenis query edit atau del atau run
+        get_jenis_query = list_none_atau_lainnya[0]
+        get_nama_tabel = list_none_atau_lainnya[-1]
+
+        conn = connect_db()
+        db = conn.cursor()
+
+        if(get_jenis_query == 'edit'):
+
+            # var1_in_edit = request.form.get['nama_tabel_edit_'+get_nama_tabel]
+            var1_in_edit = request.form['nama_tabel_edit_'+get_nama_tabel]
+            # var1_in_edit = get_nama_tabel
+            # var2_in_edit = "CREATE TABLE IF NOT EXISTS data_tabel_myadmin (id INTEGER PRIMARY KEY AUTOINCREMENT, kolom1 TEXT, kolm2 DATETIME, kolom3 TEXT) ok"
+            # var2_in_edit = request.form.get['teks_sintaks_edit_'+get_nama_tabel]
+            var2_in_edit = request.form['teks_sintaks_edit_'+get_nama_tabel]
+
+            # if(request.form['teks_sintaks_edit'] is not None):
+            #     var2_in_edit = request.form['teks_sintaks_edit']
+            # else:
+            #     var2_in_edit = "CREATE TABLE IF NOT EXISTS data_tabel_myadmin (id INTEGER PRIMARY KEY AUTOINCREMENT, kolom1 TEXT, kolm2 DATETIME, kolom3 TEXT) ok"
+
+            # update pada Tabel data_tabel_myadmin, pada kolom teks_sintaks
+            db.execute("UPDATE data_tabel_myadmin SET teks_sintaks = ? WHERE nama_tabel = ?",(var2_in_edit, var1_in_edit))
+
+            conn.commit()
+
+        # return 'Hello ' + str_none_atau_lainnya + ' Tipe request = ' + request.method + ' ' + list_none_atau_lainnya[0]+ ' ' + list_none_atau_lainnya[-1]
+
+        # # menampilkan data dari tabel data_tabel_myadmin
+        # # conn = connect_db()
+        # # db = conn.cursor()
+
+        # c = db.execute(""" SELECT * FROM  data_tabel_myadmin """)
+
+        # var_tabel_myadmin_in = c.fetchall()
+
+        # conn.commit()
+        # # db.close()
+        # # conn.close()
+
+        db.close()
+        conn.close()
+
+        # return render_template_string(A_a+template_view+Z_z, var_tabel_myadmin = var_tabel_myadmin_in)
+
+        return redirect(url_for('myadmin'))
+
+    else:
+        # Aksi => Buat, Hapus Tabel data_tabel_myadmin
+        aksi = 'c'
+
+        if aksi == 'c':
+            conn = connect_db()
+            db = conn.cursor()
+
+            str_info = 'tabel berhasil dibuat :D'
+            # create tabel
+            db.execute("""
+            CREATE TABLE IF NOT EXISTS data_tabel_myadmin
+            (id INTEGER PRIMARY KEY AUTOINCREMENT, nama_tabel TEXT, date_pembuatan DATETIME,
+            teks_sintaks TEXT)
+            """)
+
+            conn.commit()
+
+        elif aksi== 'd':
+            conn = connect_db()
+            db = conn.cursor()
+
+            str_info = 'tabel berhasil dihapus :D'
+            # hapus tabel
+            db.execute("""
+            DROP TABLE IF EXISTS data_tabel_myadmin
+            """)
+
+            conn.commit()
+            # db.close()
+            # conn.close()
+
+            # untuk membersihkan semacam cache setelah proses hapus tabel
+            # conn = connect_db_to_vacuum()
+            # db = conn.cursor()
+
+            db.execute("""
+            vacuum
+            """)
+
+            conn.commit()
+            # db.close()
+            # conn.close()
+
+        # return str_info
 
         if request.method == 'POST': # dioperasikan dihalaman sendiri tanpa send ke route lain, misal /myadmin
 
@@ -2586,7 +2683,7 @@ def myadmin(none_atau_lainnya=None):
             var2_in = request.form['teks_sintaks']
 
             # untuk mengkondisikan nama tabel tidak boleh ada spasi
-            var1_in = var1_in.replace(" ","_")
+            var1_in = var1_in.replace(" ","_").lower()
 
             # Aksi => Buat, Hapus Tabel dari Tabel data_tabel_myadmin
             aksi_sub = 'c'
