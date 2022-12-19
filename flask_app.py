@@ -2377,7 +2377,6 @@ def myadmin(none_atau_lainnya=None):
                                                     <td style="display: table-cell;">
                                                         {{item[3]}} </td>
                                                     <td style="display: table-cell;" class="footable-last-visible">
-                                                        <!-- <form action="/myadmin/edit-nama_tabel_var-{{item[1]}}" class="modal-content form-horizontal" id="editor" method="post"> -->
 
                                                         <a href="" data-toggle="modal" data-target="#editor-modal{{item[1]}}">
                                                         <button type="button" class="btn btn-info btn-outline btn-circle btn-lg m-r-5"><i class="ti-pencil-alt"></i></button></a>
@@ -2385,8 +2384,13 @@ def myadmin(none_atau_lainnya=None):
                                                         <!-- <a href="/myadmin/edit-nama_tabel_var-{{item[1]}}"> -->
                                                         <!-- <button type="button" class="btn btn-info btn-outline btn-circle btn-lg m-r-5"><i class="ti-pencil-alt"></i></button></a> -->
 
-                                                        <a href="/myadmin/del-nama_tabel_var-{{item[1]}}">
+                                                        <!-- <a href="/myadmin/del-nama_tabel_var-{{item[1]}}"> -->
+                                                        <!-- <button type="button" class="btn btn-info btn-outline btn-circle btn-lg m-r-5"><i class="ti-trash"></i></button></a> -->
+
+                                                        <a href="" data-toggle="modal" data-target="#hapus-modal{{item[1]}}">
                                                         <button type="button" class="btn btn-info btn-outline btn-circle btn-lg m-r-5"><i class="ti-trash"></i></button></a>
+
+
                                                         <a href="/myadmin/run-nama_tabel_var-{{item[1]}}">
                                                         <button type="button" class="btn btn-info btn-outline btn-circle btn-lg m-r-5"><i class="ti-control-play"></i></button></a>
 
@@ -2400,7 +2404,7 @@ def myadmin(none_atau_lainnya=None):
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
                                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                                                            <h4 class="modal-title" id="editor-title">Edit row #{{item[0]}}</h4>
+                                                                            <h4 class="modal-title" id="editor-title">Ubah Data ke-{{item[0]}}</h4>
                                                                         </div>
                                                                         <div class="modal-body">
                                                                             <from class="form-horizontal form-material">
@@ -2441,8 +2445,91 @@ def myadmin(none_atau_lainnya=None):
                                                             </div>
                                                             <!-- /.modal-dialog -->
                                                         </div>
-                                                        <!-- End Popup Model -->
-                                                        <!-- </form> -->
+                                                        <!-- End Popup Model utk Edit -->
+
+                                                        <!-- Start Popup Model utk Hapus -->
+                                                        <div class="modal fade in" id="hapus-modal{{item[1]}}" tabindex="-1" role="dialog" aria-labelledby="editor-title">
+                                                            <div class="modal-dialog">
+                                                                <form action="/myadmin/del-nama_tabel_var-{{item[1]}}" class="modal-content form-horizontal" id="editor" method="post">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                                            <h4 class="modal-title" id="editor-title">Hapus Data ke-{{item[0]}}</h4>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <from class="form-horizontal form-material">
+                                                                                <div class="form-group">
+                                                                                    <label for="firstName" class="col-sm-3 control-label">Nama</label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <input type="text" class="form-control" name="nama_tabel_hapus_{{item[1]}}" value="{{item[1]}}" placeholder="Nama Tabel" readonly>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label for="status" class="col-sm-3 control-label">Sintaks</label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <!--input type="text" class="form-control" id="status" name="status" placeholder="Status Here" required> -->
+                                                                                        <textarea class="form-control" name="teks_sintaks_hapus_{{item[1]}}" rows="4" placeholder="Teks sintaks">{{item[3]}}</textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </from>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="submit" class="btn btn-info waves-effect">Hapus</button>
+                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- /.modal-content -->
+                                                                </form>
+                                                            </div>
+                                                            <!-- /.modal-dialog -->
+                                                        </div>
+                                                        <!-- End Popup Model utk Hapus -->
+
+                                                        <!-- Start Popup Model utk Generate Kode untuk flask_app.py -->
+                                                        <div class="modal fade in" id="gen-modal{{item[1]}}" tabindex="-1" role="dialog" aria-labelledby="editor-title">
+                                                            <div class="modal-dialog">
+                                                                <form action="/myadmin/gen-nama_tabel_var-{{item[1]}}" class="modal-content form-horizontal" id="editor" method="post">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                                            <h4 class="modal-title" id="editor-title">Hapus Data ke-{{item[0]}}</h4>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <from class="form-horizontal form-material">
+                                                                                <div class="form-group">
+                                                                                    <label for="firstName" class="col-sm-3 control-label">Nama</label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <input type="text" class="form-control" name="nama_tabel_gen_{{item[1]}}" value="{{item[1]}}" placeholder="Nama Tabel" readonly>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label for="status" class="col-sm-3 control-label">Sintaks</label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <!--input type="text" class="form-control" id="status" name="status" placeholder="Status Here" required> -->
+                                                                                        <textarea class="form-control" name="teks_sintaks_tabel_gen_{{item[1]}}" rows="4" placeholder="Teks sintaks">{{item[3]}}</textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label for="status" class="col-sm-3 control-label">Generate Kode untuk flask_app.py</label>
+                                                                                    <div class="col-sm-9">
+                                                                                        <!--input type="text" class="form-control" id="status" name="status" placeholder="Status Here" required> -->
+                                                                                        <textarea class="form-control" name="teks_sintaks_page_gen_{{item[1]}}" rows="4" placeholder="Teks sintaks">{{item[3]}}</textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </from>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="submit" class="btn btn-info waves-effect">Hapus</button>
+                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- /.modal-content -->
+                                                                </form>
+                                                            </div>
+                                                            <!-- /.modal-dialog -->
+                                                        </div>
+                                                        <!-- End Popup Model utk utk Generate Kode untuk flask_app.py -->
+
                                                     </td>
                                                 </tr>
                                                 {% endfor %}
@@ -2609,6 +2696,32 @@ def myadmin(none_atau_lainnya=None):
             db.execute("UPDATE data_tabel_myadmin SET teks_sintaks = ? WHERE nama_tabel = ?",(var2_in_edit, var1_in_edit))
 
             conn.commit()
+
+        elif(get_jenis_query == 'del'):
+            var1_in_hapus = request.form['nama_tabel_hapus_'+get_nama_tabel]
+
+            # hapus data pada Tabel data_tabel_myadmin, pada kolom nama_tabel
+            db.execute("DELETE FROM data_tabel_myadmin WHERE nama_tabel = ?",(var1_in_hapus,))
+
+            conn.commit()
+
+        elif(get_jenis_query == 'gen'):
+
+            var1_in_gen = request.form['nama_tabel_gen_'+get_nama_tabel]
+            var2_in_gen = request.form['teks_sintaks_tabel_gen_'+get_nama_tabel]
+            var3_in_gen = request.form['teks_sintaks_page_gen_'+get_nama_tabel]
+
+            # hapus data pada Tabel data_tabel_myadmin, pada kolom nama_tabel
+            # db.execute("DELETE FROM data_tabel_myadmin WHERE nama_tabel = ?",(var1_in_hapus,))
+
+            # conn.commit()
+
+            # generate kode @app.route.. untuk flask_app.py
+            var3_in_gen += """
+
+
+
+            """
 
         # return 'Hello ' + str_none_atau_lainnya + ' Tipe request = ' + request.method + ' ' + list_none_atau_lainnya[0]+ ' ' + list_none_atau_lainnya[-1]
 
