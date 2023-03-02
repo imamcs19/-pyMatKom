@@ -2791,12 +2791,16 @@ def myadmin(none_atau_lainnya=None):
         # return str_info
 
         if request.method == 'POST': # dioperasikan dihalaman sendiri tanpa send ke route lain, misal /myadmin
-
+            
             var1_in = request.form['nama_tabel']
             var2_in = request.form['teks_sintaks']
 
-            # untuk mengkondisikan nama tabel tidak boleh ada spasi
-            var1_in = var1_in.replace(" ","_").lower()
+            # untuk mengkondisikan nama tabel tidak boleh ada spasi dan hanya a-z dan angka
+            # var1_in = var1_in.replace(" ","_").lower()
+            filter_var1_in = "_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            getVals_base_filter_var1_in = list(filter(lambda x: x in filter_var1_in, var1_in))
+            var1_in = "".join(getVals_base_filter_var1_in).lower()
 
             # Aksi => Buat, Hapus Tabel dari Tabel data_tabel_myadmin
             aksi_sub = 'c'
